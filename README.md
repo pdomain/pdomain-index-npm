@@ -8,7 +8,7 @@ Pages. The npm sibling of the existing [`pd-index`](https://github.com/ConcaveTr
 ## URL
 
 ```
-https://concavetrillion.github.io/pdomain-index-npm/
+https://pdomain.github.io/pdomain-index-npm/
 ```
 
 ## How consumers use it
@@ -16,7 +16,7 @@ https://concavetrillion.github.io/pdomain-index-npm/
 Add to your project's `.npmrc`:
 
 ```
-@pdomain:registry=https://concavetrillion.github.io/pdomain-index-npm/
+@pdomain:registry=https://pdomain.github.io/pdomain-index-npm/
 ```
 
 Then:
@@ -36,9 +36,9 @@ with a `client_payload.tarball_url` pointing at the `.tgz` (typically a
 GitHub Release asset URL on the publisher's own repo):
 
 ```sh
-gh api repos/ConcaveTrillion/pdomain-index-npm/dispatches \
+gh api repos/pdomain/pdomain-index-npm/dispatches \
   -f event_type=pd-npm-publish \
-  -f client_payload[tarball_url]="https://github.com/ConcaveTrillion/pdomain-ui/releases/download/v0.1.0-alpha/pdomain-ui-0.1.0-alpha.tgz"
+  -f client_payload[tarball_url]="https://github.com/pdomain/pdomain-ui/releases/download/v0.1.0-alpha/pdomain-ui-0.1.0-alpha.tgz"
 ```
 
 The publish workflow downloads the tarball, computes integrity + shasum,

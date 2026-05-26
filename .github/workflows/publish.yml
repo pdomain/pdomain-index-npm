@@ -56,7 +56,7 @@ jobs:
         env:
           TARBALL_URL: ${{ steps.url.outputs.url }}
           REGISTRY_ROOT: ${{ github.workspace }}/registry
-          BASE_URL: https://concavetrillion.github.io/pdomain-index-npm/
+          BASE_URL: https://pdomain.github.io/pdomain-index-npm/
         run: |
           node dist/scripts/publish.js \
             --tarball-url "$TARBALL_URL" \

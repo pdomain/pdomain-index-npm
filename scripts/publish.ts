@@ -41,7 +41,7 @@ export interface PublishOptions {
   tarballPath?: string;
   /** URL to download the .tgz from. Mutually exclusive with tarballPath. */
   tarballUrl?: string;
-  /** Registry base URL, e.g. "https://concavetrillion.github.io/pdomain-index-npm/" */
+  /** Registry base URL, e.g. "https://pdomain.github.io/pdomain-index-npm/" */
   baseUrl: string;
 }
 
@@ -231,7 +231,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const baseUrl =
     idx("--base-url") >= 0
       ? args[idx("--base-url") + 1]
-      : "https://concavetrillion.github.io/pdomain-index-npm/";
+      : "https://pdomain.github.io/pdomain-index-npm/";
   const tarballPath =
     idx("--tarball") >= 0 ? args[idx("--tarball") + 1] : undefined;
   const tarballUrl =

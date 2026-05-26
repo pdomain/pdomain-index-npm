@@ -58,7 +58,7 @@ body as JSON (Content-Type is not checked against the body).
       "type": "module",
       "exports": { ".": { "...": "..." } },
       "dist": {
-        "tarball": "https://concavetrillion.github.io/pdomain-index-npm/@pdomain/pdomain-ui/-/pdomain-ui-0.1.0-alpha.tgz",
+        "tarball": "https://pdomain.github.io/pdomain-index-npm/@pdomain/pdomain-ui/-/pdomain-ui-0.1.0-alpha.tgz",
         "shasum": "<sha1 hex, 40 chars>",
         "integrity": "sha512-<base64>"
       }

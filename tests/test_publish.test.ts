@@ -46,7 +46,7 @@ test("publish drops the tarball into the right encoded path", async () => {
   const result = await publish({
     root,
     tarballPath: localTarball,
-    baseUrl: "https://concavetrillion.github.io/pdomain-index-npm/",
+    baseUrl: "https://pdomain.github.io/pdomain-index-npm/",
   });
 
   assert.equal(result.packageName, "@pdomain/pdomain-ui");
@@ -86,7 +86,7 @@ test("publish refuses to overwrite an existing version with different bytes", as
   await publish({
     root,
     tarballPath: f1,
-    baseUrl: "https://concavetrillion.github.io/pdomain-index-npm/",
+    baseUrl: "https://pdomain.github.io/pdomain-index-npm/",
   });
 
   const tarball2 = await buildMinimalTarball({
@@ -103,7 +103,7 @@ test("publish refuses to overwrite an existing version with different bytes", as
       publish({
         root,
         tarballPath: f2,
-        baseUrl: "https://concavetrillion.github.io/pdomain-index-npm/",
+        baseUrl: "https://pdomain.github.io/pdomain-index-npm/",
       }),
     (err: unknown) => {
       assert.ok(err instanceof PublishConflictError);
@@ -128,7 +128,7 @@ test("publish accepts a URL for the tarball, downloads it, then publishes", asyn
     const result = await publish({
       root,
       tarballUrl: `${baseUrl}/test-package-0.0.1.tgz`,
-      baseUrl: "https://concavetrillion.github.io/pdomain-index-npm/",
+      baseUrl: "https://pdomain.github.io/pdomain-index-npm/",
     });
 
     assert.equal(result.packageName, "@pdomain/test-package");

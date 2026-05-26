@@ -51,10 +51,10 @@ export function packumentPathFor(name: string): string {
  * Constructs the absolute tarball URL for a given package + version.
  * Uses the decoded slash form so GitHub Pages can serve it directly.
  *
- * baseUrl = "https://concavetrillion.github.io/pdomain-index-npm/"
+ * baseUrl = "https://pdomain.github.io/pdomain-index-npm/"
  * name    = "@pdomain/pdomain-ui"
  * version = "0.1.0-alpha"
- * -> "https://concavetrillion.github.io/pdomain-index-npm/@pdomain/pdomain-ui/-/pdomain-ui-0.1.0-alpha.tgz"
+ * -> "https://pdomain.github.io/pdomain-index-npm/@pdomain/pdomain-ui/-/pdomain-ui-0.1.0-alpha.tgz"
  */
 export function tarballUrlFor(
   baseUrl: string,

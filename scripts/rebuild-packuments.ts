@@ -367,7 +367,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const baseUrl =
     idx("--base-url") >= 0
       ? args[idx("--base-url") + 1]
-      : "https://concavetrillion.github.io/pdomain-index-npm/";
+      : "https://pdomain.github.io/pdomain-index-npm/";
   const packageName =
     idx("--package") >= 0 ? args[idx("--package") + 1] : undefined;
 
