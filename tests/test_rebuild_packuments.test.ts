@@ -6,7 +6,7 @@ import { join } from "node:path";
 import { rebuildPackuments } from "../scripts/rebuild-packuments.js";
 import { buildMinimalTarball } from "./_tar.js";
 
-const BASE_URL = "https://concavetrillion.github.io/pdomain-index-npm/";
+const BASE_URL = "https://pdomain.github.io/pdomain-index-npm/";
 
 async function fixtureWithTarball(
   pkgs: Array<{ name: string; version: string; [key: string]: unknown }>,

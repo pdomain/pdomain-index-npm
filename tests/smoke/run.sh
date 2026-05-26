@@ -18,7 +18,7 @@
 
 set -euo pipefail
 
-REGISTRY="${REGISTRY:-https://concavetrillion.github.io/pdomain-index-npm/}"
+REGISTRY="${REGISTRY:-https://pdomain.github.io/pdomain-index-npm/}"
 PACKAGE="@pdomain/test-package"
 VERSION="0.0.1"
 # GitHub Pages decodes %2f to / in the path, so we use the real slash form.
