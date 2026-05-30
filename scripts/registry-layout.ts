@@ -10,7 +10,7 @@
  *   @pdomain/test-package/index.html               <- packument JSON
  *   @pdomain/test-package/-/test-package-0.0.1.tgz <- tarball bytes
  *
- * When npm GETs `/@concavetrillion%2ftest-package`, GitHub Pages decodes the
+ * When npm GETs `/@pdomain%2ftest-package`, GitHub Pages decodes the
  * %2f to a real slash and serves the directory. GitHub Pages then serves
  * `index.html` from that directory. npm parses the body as JSON regardless of
  * Content-Type. This is the standard approach for GitHub Pages-hosted static

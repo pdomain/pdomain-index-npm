@@ -2,8 +2,8 @@
 
 Self-hosted [npm registry](https://github.com/npm/registry/blob/main/docs/REGISTRY-API.md)
 for the `@pdomain/*` scope, served as a static site from GitHub
-Pages. The npm sibling of the existing [`pd-index`](https://github.com/ConcaveTrillion/pd-index)
-(pip).
+Pages. The npm sibling of the existing [`pdomain-index-pip`](https://github.com/pdomain/pdomain-index-pip)
+Python package index.
 
 ## URL
 

@@ -23,19 +23,19 @@ we serve.
 
 ### Why real slashes (not `%2f`)
 
-The npm protocol uses URL-encoded scoped names: `GET /@concavetrillion%2fpdomain-ui`.
+The npm protocol uses URL-encoded scoped names: `GET /@pdomain%2fpdomain-ui`.
 GitHub Pages decodes `%2f` to a real `/` when matching paths, so a request for
-`/@concavetrillion%2fpdomain-ui/` is served from the directory
-`@pdomain/pdomain-ui/` on the `gh-pages` branch. This is the standard
-approach for GitHub Pages-hosted static npm registries.
+`/@pdomain%2fpdomain-ui/` is served from the directory `@pdomain/pdomain-ui/`
+on the `gh-pages` branch. This is the standard approach for GitHub
+Pages-hosted static npm registries.
 
 ### Packument files
 
 The packument (the JSON document npm GETs when resolving a package) is stored as
 `index.html` inside each package directory. GitHub Pages redirects `GET
-/@concavetrillion%2fpdomain-ui` → `/@pdomain/pdomain-ui/` and serves
-`@pdomain/pdomain-ui/index.html`. npm follows the redirect and parses the
-body as JSON (Content-Type is not checked against the body).
+/@pdomain%2fpdomain-ui` to `/@pdomain/pdomain-ui/` and serves
+`@pdomain/pdomain-ui/index.html`. npm follows the redirect and parses the body
+as JSON (Content-Type is not checked against the body).
 
 ## Packument JSON shape
 
@@ -66,7 +66,7 @@ body as JSON (Content-Type is not checked against the body).
     "0.1.1-alpha": { "...": "..." }
   },
   "time": {
-    "created":  "2026-05-17T00:00:00.000Z",
+    "created": "2026-05-17T00:00:00.000Z",
     "modified": "2026-05-18T00:00:00.000Z",
     "0.1.0-alpha": "2026-05-17T00:00:00.000Z",
     "0.1.1-alpha": "2026-05-18T00:00:00.000Z"

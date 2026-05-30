@@ -1,10 +1,11 @@
 # pdomain-index-npm — static npm registry tooling
 # Usage: make <target>
 
-.PHONY: help setup install typecheck lint lint-check format-check actionlint static-check pre-commit-check test build ci ci-slow publish-pkg rebuild-packuments sync-releases smoke
+.PHONY: help setup install typecheck lint lint-check format-check actionlint shell-check static-check pre-commit-check test build ci ci-slow publish-pkg rebuild-packuments sync-releases smoke
 
 BASE_URL ?= https://pdomain.github.io/pdomain-index-npm/
 ROOT ?= $(CURDIR)
+EXPECTED_PACKAGE_NAME ?=
 
 help: ## Show this help message
 	@echo "Available commands:"
@@ -29,7 +30,10 @@ format-check: ## Check formatting without modifying files
 actionlint: ## Lint GitHub Actions workflows
 	npm run actionlint
 
-static-check: ## Run typecheck, lint, format-check, and actionlint
+shell-check: ## Check smoke shell script syntax
+	npm run shell:check
+
+static-check: ## Run typecheck, lint, format-check, actionlint, and shell syntax checks
 	npm run static-check
 
 pre-commit-check: static-check ## Run all read-only static checks
@@ -40,20 +44,20 @@ test: ## Run Node test suite
 build: ## Compile TypeScript to dist/
 	npm run build
 
-ci: ## Run complete CI pipeline (static-check, build, test)
+ci: ## Run complete CI pipeline (static-check and test)
 	npm run ci
 
 ci-slow: ci ## Full pre-flight for releases (alias of ci today)
 
-publish-pkg: ## Publish a tarball into ROOT (set TARBALL=path or TARBALL_URL=url)
+publish-pkg: ## Publish a tarball into ROOT (set TARBALL=path or TARBALL_URL=url, optional EXPECTED_PACKAGE_NAME=name)
 	@if [ -z "$(TARBALL)" ] && [ -z "$(TARBALL_URL)" ]; then \
 		echo "ERROR: set TARBALL=path or TARBALL_URL=url"; \
 		exit 2; \
 	fi
 	@if [ -n "$(TARBALL)" ]; then \
-		npm run publish-pkg -- --tarball "$(TARBALL)" --root "$(ROOT)" --base-url "$(BASE_URL)"; \
+		npm run publish-pkg -- --tarball "$(TARBALL)" --root "$(ROOT)" --base-url "$(BASE_URL)" $(if $(EXPECTED_PACKAGE_NAME),--expected-package-name "$(EXPECTED_PACKAGE_NAME)",); \
 	else \
-		npm run publish-pkg -- --tarball-url "$(TARBALL_URL)" --root "$(ROOT)" --base-url "$(BASE_URL)"; \
+		npm run publish-pkg -- --tarball-url "$(TARBALL_URL)" --root "$(ROOT)" --base-url "$(BASE_URL)" $(if $(EXPECTED_PACKAGE_NAME),--expected-package-name "$(EXPECTED_PACKAGE_NAME)",); \
 	fi
 
 rebuild-packuments: ## Rebuild packuments under ROOT

@@ -1,6 +1,7 @@
 # Build output
 dist/
 _site/
+registry/
 *.tgz
 
 # Node

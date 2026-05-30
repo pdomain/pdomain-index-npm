@@ -17,6 +17,7 @@
  *   node dist/scripts/publish.js --tarball-url <url> --root <gh-pages-checkout> --base-url <url>
  */
 
+import { createReadStream } from "node:fs";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { join } from "node:path";
 import { createHash } from "node:crypto";
@@ -43,6 +44,12 @@ export interface PublishOptions {
   tarballUrl?: string;
   /** Optional guard used by release-sync jobs to avoid indexing legacy packages. */
   expectedPackageName?: string;
+  /** Maximum compressed tarball bytes accepted from local paths or URLs. */
+  maxTarballBytes?: number;
+  /** Maximum decompressed tar bytes scanned while looking for package.json. */
+  maxDecompressedBytes?: number;
+  /** Maximum bytes accepted for the package.json entry inside the tarball. */
+  maxPackageJsonBytes?: number;
   /** Registry base URL, e.g. "https://pdomain.github.io/pdomain-index-npm/" */
   baseUrl: string;
 }
@@ -88,7 +95,65 @@ interface TarEntry {
   data: Buffer;
 }
 
-function parseTarEntries(buf: Buffer): TarEntry[] {
+const DEFAULT_MAX_TARBALL_BYTES = 64 * 1024 * 1024;
+const DEFAULT_MAX_DECOMPRESSED_BYTES = 128 * 1024 * 1024;
+const DEFAULT_MAX_PACKAGE_JSON_BYTES = 1024 * 1024;
+
+function maxBytesError(label: string, maxBytes: number): Error {
+  return new Error(`${label} exceeds maximum size of ${maxBytes} bytes`);
+}
+
+async function bufferReadableWithLimit(
+  stream: AsyncIterable<Buffer | Uint8Array | string>,
+  maxBytes: number,
+  label: string,
+): Promise<Buffer> {
+  const chunks: Buffer[] = [];
+  let total = 0;
+  for await (const chunk of stream) {
+    const buf = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk);
+    total += buf.byteLength;
+    if (total > maxBytes) {
+      throw maxBytesError(label, maxBytes);
+    }
+    chunks.push(buf);
+  }
+  return Buffer.concat(chunks, total);
+}
+
+async function bufferWebStreamWithLimit(
+  stream: ReadableStream<Uint8Array>,
+  maxBytes: number,
+  label: string,
+): Promise<Buffer> {
+  const reader = stream.getReader();
+  const chunks: Buffer[] = [];
+  let total = 0;
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      const buf = Buffer.from(value);
+      total += buf.byteLength;
+      if (total > maxBytes) {
+        throw maxBytesError(label, maxBytes);
+      }
+      chunks.push(buf);
+    }
+  } finally {
+    reader.releaseLock();
+  }
+  return Buffer.concat(chunks, total);
+}
+
+async function readFileWithLimit(
+  path: string,
+  maxBytes: number,
+): Promise<Buffer> {
+  return bufferReadableWithLimit(createReadStream(path), maxBytes, "Tarball");
+}
+
+function parseTarEntries(buf: Buffer, maxPackageJsonBytes: number): TarEntry[] {
   const entries: TarEntry[] = [];
   let offset = 0;
   while (offset + 512 <= buf.length) {
@@ -104,6 +169,12 @@ function parseTarEntries(buf: Buffer): TarEntry[] {
     const typeFlag = header[156];
     offset += 512;
     if (typeFlag === 0 || typeFlag === 48) {
+      if (
+        (name === "package/package.json" || name.endsWith("/package.json")) &&
+        size > maxPackageJsonBytes
+      ) {
+        throw maxBytesError("Tarball package.json", maxPackageJsonBytes);
+      }
       entries.push({ name, size, data: buf.subarray(offset, offset + size) });
     }
     offset += Math.ceil(size / 512) * 512;
@@ -113,16 +184,15 @@ function parseTarEntries(buf: Buffer): TarEntry[] {
 
 async function extractPackageJson(
   tgzBuffer: Buffer,
+  maxDecompressedBytes: number,
+  maxPackageJsonBytes: number,
 ): Promise<Record<string, unknown>> {
-  const gunzipped = await new Promise<Buffer>((resolve, reject) => {
-    const gunzip = createGunzip();
-    const chunks: Buffer[] = [];
-    Readable.from(tgzBuffer).pipe(gunzip);
-    gunzip.on("data", (c: Buffer) => chunks.push(c));
-    gunzip.on("end", () => resolve(Buffer.concat(chunks)));
-    gunzip.on("error", reject);
-  });
-  const entries = parseTarEntries(gunzipped);
+  const gunzipped = await bufferReadableWithLimit(
+    Readable.from(tgzBuffer).pipe(createGunzip()),
+    maxDecompressedBytes,
+    "Tarball decompressed data",
+  );
+  const entries = parseTarEntries(gunzipped, maxPackageJsonBytes);
   const entry = entries.find(
     (e) =>
       e.name === "package/package.json" || e.name.endsWith("/package.json"),
@@ -139,13 +209,19 @@ function stringField(value: unknown, fallback = ""): string {
 // Download helper
 // ---------------------------------------------------------------------------
 
-async function downloadUrl(url: string): Promise<Buffer> {
+async function downloadUrl(url: string, maxBytes: number): Promise<Buffer> {
   const resp = await fetch(url);
   if (!resp.ok) {
     throw new Error(`Failed to download ${url}: HTTP ${resp.status}`);
   }
-  const ab = await resp.arrayBuffer();
-  return Buffer.from(ab);
+  const contentLength = resp.headers.get("content-length");
+  if (contentLength && Number(contentLength) > maxBytes) {
+    throw maxBytesError("Tarball", maxBytes);
+  }
+  if (!resp.body) {
+    throw new Error(`Failed to download ${url}: response body is empty`);
+  }
+  return bufferWebStreamWithLimit(resp.body, maxBytes, "Tarball");
 }
 
 // ---------------------------------------------------------------------------
@@ -154,6 +230,11 @@ async function downloadUrl(url: string): Promise<Buffer> {
 
 export async function publish(opts: PublishOptions): Promise<PublishResult> {
   const { root, baseUrl } = opts;
+  const maxTarballBytes = opts.maxTarballBytes ?? DEFAULT_MAX_TARBALL_BYTES;
+  const maxDecompressedBytes =
+    opts.maxDecompressedBytes ?? DEFAULT_MAX_DECOMPRESSED_BYTES;
+  const maxPackageJsonBytes =
+    opts.maxPackageJsonBytes ?? DEFAULT_MAX_PACKAGE_JSON_BYTES;
 
   if (!opts.tarballPath && !opts.tarballUrl) {
     throw new Error("Either tarballPath or tarballUrl must be provided");
@@ -162,13 +243,17 @@ export async function publish(opts: PublishOptions): Promise<PublishResult> {
   // Step 1: Get tarball bytes
   let tgzBuffer: Buffer;
   if (opts.tarballPath) {
-    tgzBuffer = await readFile(opts.tarballPath);
+    tgzBuffer = await readFileWithLimit(opts.tarballPath, maxTarballBytes);
   } else {
-    tgzBuffer = await downloadUrl(opts.tarballUrl!);
+    tgzBuffer = await downloadUrl(opts.tarballUrl!, maxTarballBytes);
   }
 
   // Step 2: Parse package.json from tarball
-  const pkgJson = await extractPackageJson(tgzBuffer);
+  const pkgJson = await extractPackageJson(
+    tgzBuffer,
+    maxDecompressedBytes,
+    maxPackageJsonBytes,
+  );
   const packageName = stringField(pkgJson["name"]);
   const version = stringField(pkgJson["version"]);
   if (!packageName || !version) {
@@ -182,10 +267,36 @@ export async function publish(opts: PublishOptions): Promise<PublishResult> {
 
   // Step 3: Compute hashes
   const shasum = createHash("sha1").update(tgzBuffer).digest("hex");
+  const shortName = packageName.includes("/")
+    ? packageName.split("/")[1]
+    : packageName;
+  const tarballDir = join(root, tarballDirFor(packageName));
+  const tarballFileName = `${shortName}-${version}.tgz`;
+  const tarballRestingPath = join(tarballDir, tarballFileName);
+  const packumentAbsPath = join(root, packumentPathFor(packageName));
+
+  try {
+    const existingTarball = await readFile(tarballRestingPath);
+    const existingShasum = createHash("sha1")
+      .update(existingTarball)
+      .digest("hex");
+    if (existingShasum !== shasum) {
+      throw new PublishConflictError(packageName, version);
+    }
+    await rebuildPackuments({ root, baseUrl, packageName });
+    return {
+      packageName,
+      version,
+      packumentPath: packumentAbsPath,
+      tarballRestingPath,
+    };
+  } catch (err) {
+    if (err instanceof PublishConflictError) throw err;
+    if ((err as NodeJS.ErrnoException).code !== "ENOENT") throw err;
+  }
 
   // Step 4: Check existing packument for version conflict
   // Packument is at <root>/@scope/name/index.html
-  const packumentAbsPath = join(root, packumentPathFor(packageName));
   try {
     const existing = JSON.parse(await readFile(packumentAbsPath, "utf8")) as {
       versions?: Record<string, { dist?: { shasum?: string } }>;
@@ -196,23 +307,6 @@ export async function publish(opts: PublishOptions): Promise<PublishResult> {
       if (existingShasum && existingShasum !== shasum) {
         throw new PublishConflictError(packageName, version);
       }
-      // Idempotent re-publish of the same bytes: return early
-      if (existingShasum === shasum) {
-        const shortName = packageName.includes("/")
-          ? packageName.split("/")[1]
-          : packageName;
-        const tarballRestingPath = join(
-          root,
-          tarballDirFor(packageName),
-          `${shortName}-${version}.tgz`,
-        );
-        return {
-          packageName,
-          version,
-          packumentPath: packumentAbsPath,
-          tarballRestingPath,
-        };
-      }
     }
   } catch (err) {
     if (err instanceof PublishConflictError) throw err;
@@ -220,13 +314,7 @@ export async function publish(opts: PublishOptions): Promise<PublishResult> {
   }
 
   // Step 5: Write the tarball to its resting place
-  const shortName = packageName.includes("/")
-    ? packageName.split("/")[1]
-    : packageName;
-  const tarballDir = join(root, tarballDirFor(packageName));
   await mkdir(tarballDir, { recursive: true });
-  const tarballFileName = `${shortName}-${version}.tgz`;
-  const tarballRestingPath = join(tarballDir, tarballFileName);
   await writeFile(tarballRestingPath, tgzBuffer);
 
   // Step 6: Refresh the packument for this package
@@ -257,15 +345,19 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     idx("--tarball") >= 0 ? args[idx("--tarball") + 1] : undefined;
   const tarballUrl =
     idx("--tarball-url") >= 0 ? args[idx("--tarball-url") + 1] : undefined;
+  const expectedPackageName =
+    idx("--expected-package-name") >= 0
+      ? args[idx("--expected-package-name") + 1]
+      : process.env.EXPECTED_PACKAGE_NAME;
 
   if (!tarballPath && !tarballUrl) {
     console.error(
-      "Usage: publish.js --tarball <path> | --tarball-url <url> [--root <dir>] [--base-url <url>]",
+      "Usage: publish.js --tarball <path> | --tarball-url <url> [--root <dir>] [--base-url <url>] [--expected-package-name <name>]",
     );
     process.exit(1);
   }
 
-  publish({ root, tarballPath, tarballUrl, baseUrl })
+  publish({ root, tarballPath, tarballUrl, baseUrl, expectedPackageName })
     .then((result) => {
       console.log(
         `Published ${result.packageName}@${result.version}\n` +

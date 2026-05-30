@@ -1,0 +1,26 @@
+# Ignored Surfaces
+
+This repository keeps generated artifacts out of static analysis and formatting
+checks so the checks stay focused on source files and hand-written docs.
+
+## Generated registry outputs
+
+- `dist/`: TypeScript build output. ESLint and Prettier ignore it because the
+  source of truth is `scripts/**/*.ts` and `tests/**/*.ts`.
+- `_site/`: local static-site output for GitHub Pages-style previews. It is
+  generated from registry content and should not be linted or formatted.
+- `registry/`: local registry output/work area used by publishing and rebuild
+  workflows. Packuments and tarballs under this directory are generated data.
+- `*.tgz`: npm tarballs. Prettier ignores them because they are binary package
+  artifacts.
+
+## Dependency installs
+
+- `node_modules/`: dependency install tree. Standard generated dependency
+  surface; excluded from all source checks.
+
+## Local tool state
+
+`.gitignore` also excludes local npm cache, editor settings, OS files, swap
+files, and agent memory directories. These are workstation-specific state, not
+repo source.

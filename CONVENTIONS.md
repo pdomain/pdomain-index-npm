@@ -121,10 +121,10 @@ unclear which specs are still authoritative for ongoing work.
 
 **The rule.** Prefer fixing the underlying issue; suppress a lint rule only
 when the deviation is genuinely correct (e.g. an optional dependency import
-guarded by `try`/`except`). When a suppression *is* warranted —
+guarded by `try`/`except`). When a suppression _is_ warranted —
 `# pyright: ignore[...]`, `# type: ignore[...]`, `# noqa: ...`, or a
 `[tool.ruff.lint]` `ignore` / `per-file-ignores` entry — it must (1) carry a
-short inline rationale at the point of deviation explaining *why* the
+short inline rationale at the point of deviation explaining _why_ the
 suppression is safe, and (2) be catalogued in the repo's
 `docs/conventions/lint-deviations.md`, which records the rule, the tool, the
 file locations, and the justification. Use basedpyright's native

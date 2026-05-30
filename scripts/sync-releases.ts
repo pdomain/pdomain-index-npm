@@ -4,6 +4,8 @@ const DEFAULT_REPOS = ["pdomain/pdomain-ui"] as const;
 const DEFAULT_EXPECTED_PACKAGES: Record<string, string> = {
   "pdomain/pdomain-ui": "@pdomain/pdomain-ui",
 };
+const GITHUB_RELEASES_PER_PAGE = 100;
+const MAX_GITHUB_RELEASES = 1000;
 
 interface GithubReleaseAsset {
   name?: unknown;
@@ -34,20 +36,29 @@ async function listReleases(
   token?: string,
 ): Promise<GithubRelease[]> {
   const apiBase = githubApiBaseUrl.replace(/\/$/, "");
-  const response = await fetch(
-    `${apiBase}/repos/${repo}/releases?per_page=100`,
-    {
-      headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-    },
-  );
+  const releases: GithubRelease[] = [];
+  const maxPages = MAX_GITHUB_RELEASES / GITHUB_RELEASES_PER_PAGE;
 
-  if (!response.ok) {
-    throw new Error(
-      `Failed to list releases for ${repo}: HTTP ${response.status}`,
+  for (let page = 1; page <= maxPages; page++) {
+    const response = await fetch(
+      `${apiBase}/repos/${repo}/releases?per_page=${GITHUB_RELEASES_PER_PAGE}&page=${page}`,
+      {
+        headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+      },
     );
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to list releases for ${repo}: HTTP ${response.status}`,
+      );
+    }
+
+    const pageReleases = (await response.json()) as GithubRelease[];
+    releases.push(...pageReleases);
+    if (pageReleases.length < GITHUB_RELEASES_PER_PAGE) break;
   }
 
-  return (await response.json()) as GithubRelease[];
+  return releases;
 }
 
 function releaseTarballUrls(releases: GithubRelease[]): string[] {

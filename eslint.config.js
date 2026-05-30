@@ -26,14 +26,21 @@ export default tseslint.config(
       },
     },
     rules: {
-      "@typescript-eslint/no-floating-promises": "error",
+      "@typescript-eslint/no-floating-promises": [
+        "error",
+        {
+          // node:test owns these registration promises and reports callback failures.
+          allowForKnownSafeCalls: [
+            { from: "package", package: "node:test", name: "test" },
+          ],
+        },
+      ],
       "@typescript-eslint/no-misused-promises": "error",
     },
   },
   {
     files: ["tests/**/*.ts"],
     rules: {
-      "@typescript-eslint/no-floating-promises": "off",
       "@typescript-eslint/no-unnecessary-type-assertion": "off",
     },
   },
