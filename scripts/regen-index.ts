@@ -434,8 +434,11 @@ export async function regenIndex(
   await rm(opts.root, { recursive: true, force: true });
 
   for (const repo of repos) {
-    const releases = await listReleases(githubApiBaseUrl, repo, opts.token);
     const expectedPackageName = DEFAULT_EXPECTED_PACKAGES[repo];
+    if (!expectedPackageName) {
+      throw new Error(`No expected package configured for ${repo}`);
+    }
+    const releases = await listReleases(githubApiBaseUrl, repo, opts.token);
     for (const asset of releaseTarballAssets(
       repo,
       releases,
@@ -515,7 +518,9 @@ if (import.meta.url === `file://${process.argv[1]}`) {
       } else {
         console.log(`Indexed packages: ${result.published.join(", ")}`);
       }
-      console.log(`Skipped release assets: ${result.skipped.length}`);
+      if (result.skipped.length > 0) {
+        console.log(`Skipped release assets: ${result.skipped.length}`);
+      }
     })
     .catch((err) => {
       console.error(err instanceof Error ? err.message : String(err));

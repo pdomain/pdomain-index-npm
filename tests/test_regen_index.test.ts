@@ -17,14 +17,17 @@ async function makeRoot(): Promise<string> {
 function startGithubFixture(
   releases: unknown[],
   files: Record<string, Buffer>,
+  repo = "pdomain/pdomain-ui",
 ): Promise<{
   server: Server;
   baseUrl: string;
   releasePageRequests: string[];
   seenAuthHeaders: string[];
+  assetRequests: string[];
 }> {
   const releasePageRequests: string[] = [];
   const seenAuthHeaders: string[] = [];
+  const assetRequests: string[] = [];
 
   return new Promise((resolve) => {
     const server = createServer((req, res) => {
@@ -32,7 +35,7 @@ function startGithubFixture(
       const auth = req.headers["authorization"];
       if (typeof auth === "string") seenAuthHeaders.push(auth);
 
-      if (url.startsWith("/repos/pdomain/pdomain-ui/releases?")) {
+      if (url.startsWith(`/repos/${repo}/releases?`)) {
         releasePageRequests.push(url);
         res.writeHead(200, { "Content-Type": "application/json" });
         res.end(JSON.stringify(releases));
@@ -41,6 +44,7 @@ function startGithubFixture(
 
       const file = files[url];
       if (file) {
+        assetRequests.push(url);
         res.writeHead(200, {
           "Content-Type": "application/octet-stream",
           "Content-Length": String(file.byteLength),
@@ -60,6 +64,7 @@ function startGithubFixture(
         baseUrl: `http://127.0.0.1:${addr.port}`,
         releasePageRequests,
         seenAuthHeaders,
+        assetRequests,
       });
     });
   });
@@ -192,6 +197,47 @@ test("regenIndex clears stale output before writing fresh packuments", async () 
       false,
     );
     assert.deepEqual(await readdir(join(root, "@pdomain")), ["pdomain-ui"]);
+  } finally {
+    server.close();
+  }
+});
+
+test("regenIndex rejects repos without an expected package mapping before fetching assets", async () => {
+  const root = await makeRoot();
+  const tarball = await buildMinimalTarball({
+    name: "../unsafe",
+    version: "0.3.0",
+  });
+  const releases: unknown[] = [];
+  const { server, baseUrl, assetRequests } = await startGithubFixture(
+    releases,
+    {
+      "/assets/unsafe-0.3.0.tgz": tarball,
+    },
+    "example/unsafe",
+  );
+  releases.push({
+    tag_name: "v0.3.0",
+    assets: [
+      {
+        name: "unsafe-0.3.0.tgz",
+        browser_download_url: `${baseUrl}/assets/unsafe-0.3.0.tgz`,
+        updated_at: "2026-05-29T12:00:00.000Z",
+      },
+    ],
+  });
+
+  try {
+    await assert.rejects(
+      regenIndex({
+        root,
+        githubApiBaseUrl: baseUrl,
+        repos: ["example/unsafe"],
+        allowNonGithubAssetHostsForTests: true,
+      }),
+      /No expected package configured for example\/unsafe/,
+    );
+    assert.deepEqual(assetRequests, []);
   } finally {
     server.close();
   }
