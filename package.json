@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "Build tooling for the pdomain-index-npm static registry. The published artifacts live under gh-pages, not in this package.",
+  "description": "Build tooling for the pdomain-index-npm static registry. GitHub Pages hosts generated packuments, while tarballs live in publisher GitHub Releases.",
   "author": "CT <concavetrillion@gmail.com>",
   "license": "MIT",
   "repository": {

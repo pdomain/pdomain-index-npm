@@ -37,10 +37,11 @@ deployment:
 REGISTRY=http://localhost:8000/ bash tests/smoke/run.sh
 ```
 
-You can also pin the package and version to check a specific release asset:
+You can also pin the version to check a specific `@pdomain/pdomain-ui` release
+asset:
 
 ```sh
-PACKAGE=@pdomain/test-package VERSION=0.0.1 bash tests/smoke/run.sh
+VERSION=0.2.2 bash tests/smoke/run.sh
 ```
 
 ## Troubleshooting
