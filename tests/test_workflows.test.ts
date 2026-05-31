@@ -19,5 +19,5 @@ test("regen workflow keeps external publisher dispatch event", async () => {
 
   assert.match(workflow, /^name: regen-and-deploy$/m);
   assert.match(workflow, /workflow_call:/);
-  assert.match(workflow, /types: \[pd-npm-publish\]/);
+  assert.match(workflow, /types: \[pdomain-npm-publish\]/);
 });

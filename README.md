@@ -40,12 +40,12 @@ GitHub Pages hosts packuments only. New package tarballs are fetched directly
 from the publisher repository's GitHub Release assets. Historical Pages-hosted
 tarball URLs are not a compatibility promise.
 
-Publisher repos can trigger a `repository_dispatch` of type `pd-npm-publish`
+Publisher repos can trigger a `repository_dispatch` of type `pdomain-npm-publish`
 after creating a release asset to signal immediate regeneration:
 
 ```sh
 gh api repos/pdomain/pdomain-index-npm/dispatches \
-  -f event_type=pd-npm-publish
+  -f event_type=pdomain-npm-publish
 ```
 
 The dispatch path is the fast path. A daily GitHub Actions sync also scans
