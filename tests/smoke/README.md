@@ -1,8 +1,8 @@
 # Smoke Test
 
 The `run.sh` script is the end-to-end integration test for `pdomain-index-npm`. It
-proves that `npm install` can resolve a `@pdomain/*` package from the
-static registry exactly as it would from npmjs.org.
+proves that `npm install` can resolve `@pdomain/pdomain-ui` from the static
+registry exactly as it would from npmjs.org.
 
 ## What the smoke proves
 

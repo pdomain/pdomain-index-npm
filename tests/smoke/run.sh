@@ -25,8 +25,8 @@ VERSION="${VERSION:-}"
 PKG_PATH="$PACKAGE"
 
 case "$PACKAGE" in
-  @pdomain/*) ;;
-  *) echo "PACKAGE must be an @pdomain/* package name" >&2; exit 2 ;;
+  @pdomain/pdomain-ui) ;;
+  *) echo "PACKAGE must be @pdomain/pdomain-ui" >&2; exit 2 ;;
 esac
 
 case "$PACKAGE$VERSION" in

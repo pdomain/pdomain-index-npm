@@ -14,7 +14,7 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "rm -rf dist && tsc -p tsconfig.json",
     "typecheck": "tsc --noEmit -p tsconfig.json",
     "lint": "eslint .",
     "format:check": "prettier --check \"scripts/**/*.{ts,mjs}\" \"tests/**/*.ts\" \".github/workflows/*.{yml,yaml}\" \"*.{json,js}\" \"README.md\" \"CONVENTIONS.md\" \"docs/**/*.md\" \"tests/**/*.md\"",
@@ -22,10 +22,7 @@
     "shell:check": "bash -n scripts/do-release.sh scripts/release-common.sh tests/smoke/run.sh",
     "static-check": "npm run typecheck && npm run lint && npm run format:check && npm run actionlint && npm run shell:check",
     "ci": "npm run static-check && npm test",
-    "publish-pkg": "npm run build --silent && node dist/scripts/publish.js",
-    "rebuild-packuments": "npm run build --silent && node dist/scripts/rebuild-packuments.js",
     "regen-index": "npm run build --silent && node dist/scripts/regen-index.js",
-    "sync-releases": "npm run build --silent && node dist/scripts/sync-releases.js",
     "smoke": "bash tests/smoke/run.sh",
     "test": "npm run build --silent && node --test --test-reporter=spec dist/tests/*.test.js dist/tests/**/*.test.js"
   },
