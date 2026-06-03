@@ -56,6 +56,12 @@ Releases of this registry tooling call the same `regen-and-deploy` workflow
 after the GitHub Release is created, so Pages is rebuilt with the released
 generator and the release workflow fails if the deploy fails.
 
+## Tooling Releases
+
+This repo's own releases are tag-only tooling releases. Package versions indexed by
+this repo come from publisher GitHub Release assets, not this repo's metadata version.
+GitHub-generated release notes are canonical for tooling releases.
+
 ## Versioning conventions
 
 - Semver throughout.
