@@ -135,6 +135,6 @@ test("workflow updater rewrites quoted action refs and setup-uv version", async 
   }
 });
 
-test("current workflows use only managed actions", async () => {
+test("current workflows use only managed actions", () => {
   assert.match(verifyManagedActions(".github/workflows"), /managed actions ok/);
 });
