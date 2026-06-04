@@ -13,10 +13,15 @@ async function defaultWorkflowFiles() {
 }
 
 const files = args.length > 0 ? args : await defaultWorkflowFiles();
-const lint = await createLinter();
 let failureCount = 0;
 
 for (const file of files) {
+  // Create a fresh linter per file. A single actionlint wasm linter instance
+  // accumulates state across lint() calls and eventually panics with Go's
+  // "RuntimeError: unreachable" (observed reliably by the 4th workflow on this
+  // repo). A fresh instance per file isolates the wasm state. See
+  // tests/test_actionlint_script.test.ts.
+  const lint = await createLinter();
   const input = await readFile(file, "utf8");
   const results = lint(input, file);
   for (const result of results) {
