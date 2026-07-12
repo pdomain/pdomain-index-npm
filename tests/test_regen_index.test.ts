@@ -136,6 +136,8 @@ test("regenIndex writes packuments that preserve GitHub release asset tarball UR
 
     const packumentPath = join(root, "@pdomain", "pdomain-ui", "index.html");
     assert.equal(await pathExists(packumentPath), true);
+    const landingPage = await readFile(join(root, "index.html"), "utf8");
+    assert.match(landingPage, /pdomain npm registry/);
     const packument = JSON.parse(await readFile(packumentPath, "utf8")) as {
       versions: Record<
         string,

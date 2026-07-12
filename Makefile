@@ -58,7 +58,7 @@ release-major: ## Release: bump major, run ci-slow, tag, push (fires GitHub Rele
 
 # scripts/do-release.sh handles repo-state guards, runs the ci-slow pre-flight,
 # computes the next three-component tag from the latest v* tag, creates the
-# annotated tag, and pushes main + tag to origin.
+# annotated tag, and pushes master + tag to origin.
 # Pass FORCE=1 to skip repo-state guards (pre-flight still runs).
 # Pass SKIP_PUSH=1 to create the release commit/tag locally without pushing.
 _do-release:

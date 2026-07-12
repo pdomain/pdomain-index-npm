@@ -551,6 +551,21 @@ export async function regenIndex(
     );
   }
 
+  await mkdir(opts.root, { recursive: true });
+  await writeFile(
+    join(opts.root, "index.html"),
+    [
+      "<!doctype html>",
+      '<html lang="en">',
+      '<head><meta charset="utf-8"><title>pdomain npm registry</title></head>',
+      "<body><h1>pdomain npm registry</h1>",
+      "<p>Read-only npm registry for the @pdomain scope.</p>",
+      "</body></html>",
+      "",
+    ].join("\n"),
+    "utf8",
+  );
+
   return { scannedRepos: repos, generated, published, skipped };
 }
 
