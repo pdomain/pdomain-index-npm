@@ -107,9 +107,30 @@ metadata, computes SHA-1 (`shasum`) and SHA-512 (`integrity`) hashes, and writes
 both into the packument. Publishers never compute hashes themselves; the
 regeneration script is the single source of truth for integrity data.
 
+Each allowlisted repository has one expected package name. Regeneration rejects
+repositories without that mapping and skips a tarball whose `package.json`
+declares another name. Output paths therefore come from trusted configuration,
+not tarball-controlled metadata. Release asset URLs must also point to the
+allowlisted repository's GitHub release-download path.
+
+The generator clears its output before writing and enforces limits on compressed
+tarballs, decompressed data, and `package.json`. Repeating the same package
+version with identical content is idempotent. Repeating a version with different
+hashes is a hard failure because published versions are immutable.
+
+These invariants are covered in `tests/test_regen_index.test.ts`, including
+unknown repositories, wrong package names, wrong release hosts, size limits,
+and conflicting duplicate versions.
+
 ## dist-tags conventions
 
 - `latest`: the highest semver non-prerelease version. Falls back to the highest
   prerelease if no stable versions exist yet.
 - Per-prerelease-tag (e.g. `alpha`): the highest version whose prerelease identifier
   starts with that tag (e.g. `0.1.0-alpha.2` for tag `alpha`).
+
+Prerelease identifiers follow semver precedence. Numeric identifiers compare as
+numbers, so `alpha.10` sorts after `alpha.2`; numeric identifiers sort before
+non-numeric identifiers. The regression test
+`regenIndex sorts numeric prerelease identifiers by semver precedence` protects
+this behavior.
