@@ -47,10 +47,8 @@ None.
 
 ## Legacy-unverified sweep
 
-- `docs/archive/plans/2026-05-30-npm-release-asset-registry.md` — can-retire;
-  implementation is proven by commits `bc011b5`, `02123ba`, and `15f75de`, and
-  current truth is in [`docs/REGISTRY_FORMAT.md`](../REGISTRY_FORMAT.md).
-- `docs/archive/specs/2026-05-30-npm-release-asset-registry-design.md` —
-  can-retire for the same implementation evidence and replacement.
+- The historical release-asset plan and design were classified as implemented
+  from commits `bc011b5`, `02123ba`, and `15f75de`, then retired after their
+  current truth and residual intent were preserved.
 - [`docs/process/writing-style.md`](../process/writing-style.md) — still-active;
   `CLAUDE.md` and `CONVENTIONS.md` continue to require it.
