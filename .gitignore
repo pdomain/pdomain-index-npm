@@ -8,6 +8,10 @@ registry/
 node_modules/
 .npm/
 
+# Python
+__pycache__/
+*.pyc
+
 # Editor / OS
 .DS_Store
 .vscode/

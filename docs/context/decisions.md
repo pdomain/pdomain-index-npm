@@ -44,7 +44,7 @@ Kind: context
 - **Old path:** `docs/archive/plans/2026-05-30-npm-release-asset-registry.md`
 - **Outcome:** Implemented and deleted after promotion.
 - **Superseded by:** [`docs/REGISTRY_FORMAT.md`](../REGISTRY_FORMAT.md)
-- **Removal commit:** Pending this retirement wave.
+- **Removal commit:** `f7ca51d`.
 - **Rationale kept:** [`docs/REGISTRY_FORMAT.md`](../REGISTRY_FORMAT.md) records
   the shipped workflow and deviations. The decision “Keep full regeneration as
   the trusted deployment path” records why. The
@@ -57,7 +57,7 @@ Kind: context
 - **Old path:** `docs/archive/specs/2026-05-30-npm-release-asset-registry-design.md`
 - **Outcome:** Implemented and deleted after promotion.
 - **Superseded by:** [`docs/REGISTRY_FORMAT.md`](../REGISTRY_FORMAT.md)
-- **Removal commit:** Pending this retirement wave.
+- **Removal commit:** `f7ca51d`.
 - **Rationale kept:** [`docs/REGISTRY_FORMAT.md`](../REGISTRY_FORMAT.md) and the
   decision “Expand validation beyond the migration design” preserve the
   shipped design and material deviations.

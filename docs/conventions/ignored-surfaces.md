@@ -37,5 +37,5 @@ checks so the checks stay focused on source files and hand-written docs.
 ## Local tool state
 
 `.gitignore` also excludes local npm cache, editor settings, OS files, swap
-files, and agent memory directories. These are workstation-specific state, not
-repo source.
+files, Python bytecode caches, and agent memory directories. These are
+workstation-specific state, not repo source.
