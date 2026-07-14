@@ -1,4 +1,19 @@
+---
+Status: active
+Owner: repository maintainers
+Created: 2026-05-21
+Last verified: 2026-07-14
+Kind: convention
+---
+
 # pdomain-index-npm conventions
+
+## Agent Index
+
+- **Kind:** convention
+- **Status:** active
+- **Read when:** changing source, tests, configuration, or documentation.
+- **Search terms:** repository conventions, lint suppression, Python tools.
 
 <!-- workspace-conventions:start -->
 
@@ -9,6 +24,10 @@ reports, issue text, PR text, and user-facing copy.
 
 **Why.** Detailed style guidance belongs in a process doc. CONVENTIONS.md
 should stay short.
+
+Generated and ignored paths are listed in
+[Ignored Surfaces](docs/conventions/ignored-surfaces.md). Approved lint
+exceptions are listed in [Lint Deviations](docs/conventions/lint-deviations.md).
 
 ## Rule: No comments explaining what code does
 

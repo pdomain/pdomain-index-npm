@@ -1,4 +1,19 @@
+---
+Status: active
+Owner: repository maintainers
+Created: 2026-05-17
+Last verified: 2026-07-14
+Kind: usage
+---
+
 # pdomain-index-npm
+
+## Agent Index
+
+- **Kind:** usage
+- **Status:** active
+- **Read when:** using, publishing to, or releasing the registry.
+- **Search terms:** npm registry, install, publish, release, GitHub Pages.
 
 Self-hosted [npm registry](https://github.com/npm/registry/blob/main/docs/REGISTRY-API.md)
 for the `@pdomain/*` scope, served as a static site from GitHub
@@ -75,6 +90,11 @@ GitHub-generated release notes are canonical for tooling releases.
 
 See [docs/REGISTRY_FORMAT.md](docs/REGISTRY_FORMAT.md) for the on-disk
 shape and the parts of the npm registry HTTP API we serve.
+
+## Contributing
+
+Start with [AGENTS.md](AGENTS.md) for repository workflow and verification
+requirements.
 
 ## Why not just publish to npmjs.org?
 

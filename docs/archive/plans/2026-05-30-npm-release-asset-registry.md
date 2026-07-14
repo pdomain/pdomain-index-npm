@@ -1,4 +1,22 @@
+---
+Status: implemented
+Owner: repository maintainers
+Created: 2026-05-30
+Last verified: 2026-07-14
+Kind: plan
+Supersedes: N/A
+Promotes to: docs/REGISTRY_FORMAT.md
+Disposition: Implemented and promoted to current registry architecture.
+---
+
 # npm Release Asset Registry Implementation Plan
+
+## Agent Index
+
+- **Kind:** plan
+- **Status:** implemented
+- **Read when:** researching the historical release-asset migration only.
+- **Search terms:** historical registry migration, release asset plan.
 
 > Archived historical implementation plan. The shipped registry format is
 > maintained in [`docs/REGISTRY_FORMAT.md`](../../REGISTRY_FORMAT.md). Legacy

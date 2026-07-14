@@ -1,6 +1,21 @@
+---
+Status: active
+Owner: repository maintainers
+Created: 2026-05-21
+Last verified: 2026-07-14
+Kind: process
+---
+
 # pdomain-index-npm
 
 Agent guidance for the `pdomain-index-npm` repo.
+
+## Agent Index
+
+- **Kind:** process
+- **Status:** active
+- **Read when:** starting coding or documentation work.
+- **Search terms:** development workflow, worktrees, testing, agent guidance.
 
 <!-- workspace-process:start -->
 

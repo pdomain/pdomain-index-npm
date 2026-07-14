@@ -48,7 +48,7 @@ def resolve_executable(name: str) -> str:
 
 def run_gh(command: list[str]) -> subprocess.CompletedProcess[str]:
     resolved = [resolve_executable(command[0]), *command[1:]]
-    return subprocess.run(  # noqa: S603
+    return subprocess.run(  # noqa: S603  # PATH-resolved executable and argv list avoid shell parsing.
         resolved, cwd=ROOT, check=True, capture_output=True, text=True
     )
 
@@ -135,7 +135,7 @@ def update_uv_version_refs(path: Path, *, version: str) -> bool:
     )
     if updated == text:
         return False
-    path.write_text(updated, encoding="utf-8")
+    _ = path.write_text(updated, encoding="utf-8")
     return True
 
 
@@ -151,7 +151,7 @@ def update_workflow_refs(path: Path, *, releases: dict[str, ActionRelease]) -> b
         )
     if updated == text:
         return False
-    path.write_text(updated, encoding="utf-8")
+    _ = path.write_text(updated, encoding="utf-8")
     return True
 
 
@@ -181,7 +181,7 @@ def update_github_actions(
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.parse_args()
+    _ = parser.parse_args()
     for path in update_github_actions():
         print(path.relative_to(ROOT))
     return 0

@@ -1,8 +1,44 @@
+---
+Status: built
+Owner: repository maintainers
+Created: 2026-05-17
+Last verified: 2026-07-14
+Kind: architecture
+---
+
 # Registry Format
+
+## Agent Index
+
+- **Kind:** architecture
+- **Status:** built
+- **Read when:** changing registry generation, deployment, or package resolution.
+- **Search terms:** packument, registry format, release assets, regeneration.
 
 This document describes the generated GitHub Pages artifact for the
 `pdomain-index-npm` static registry and the parts of the npm registry HTTP API
 we serve.
+
+## Shipped architecture
+
+`scripts/regen-index.ts` rebuilds all packuments from allowlisted GitHub Release
+assets. `.github/workflows/regen.yml` exposes that regeneration as a reusable
+workflow and deploys `_site/` through the GitHub Pages artifact flow. Publisher
+dispatches and this repository's release workflow call the same full rebuild.
+
+The shipped path differs from the original migration design in several useful
+ways. It uses `REGEN_ROOT`, the `pdomain-npm-publish` event, and a reusable
+`regen.yml` workflow. It ignores dispatch payload content because every trigger
+runs a full allowlisted scan. It also removed the legacy publish, rebuild, and
+sync scripts after the replacement shipped.
+
+## Evidence
+
+- **Code:** `scripts/regen-index.ts` and `.github/workflows/regen.yml`.
+- **Tests:** `tests/test_regen_index.test.ts`, `tests/test_workflows.test.ts`,
+  and `tests/smoke/run.sh`.
+- **Artifacts:** `_site/` is generated and uploaded as the Pages artifact.
+- **Verified:** `make ci` and migration-time source review on 2026-07-14.
 
 ## Directory layout
 

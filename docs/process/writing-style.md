@@ -1,4 +1,19 @@
+---
+Status: active
+Owner: repository maintainers
+Created: 2026-05-28
+Last verified: 2026-07-14
+Kind: process
+---
+
 # Writing Style
+
+## Agent Index
+
+- **Kind:** process
+- **Status:** active
+- **Read when:** writing reader-facing prose for this repository.
+- **Search terms:** writing style, readable prose, documentation.
 
 Use this style for docs, reports, issue text, PR text, and user-facing copy.
 

@@ -1,4 +1,37 @@
+---
+Status: implemented
+Owner: repository maintainers
+Created: 2026-05-30
+Last verified: 2026-07-14
+Kind: spec
+Supersedes: N/A
+Promotes to: docs/REGISTRY_FORMAT.md
+Disposition: Implemented and promoted to current registry architecture.
+---
+
 # npm Release Asset Registry Design
+
+## Agent Index
+
+- **Kind:** spec
+- **Status:** implemented
+- **Read when:** researching the historical release-asset design only.
+- **Search terms:** historical registry design, release assets, Pages artifact.
+
+## Adversarial Review
+
+- **Stage:** Post-implementation migration review on 2026-07-14.
+- **Source:** Three read-only migration analyzers compared this design and its
+  plan with current code, tests, workflows, documentation, and git history.
+- **Accepted findings:** The implementation added reusable workflow calls,
+  stronger repository and package validation, canonical package metadata
+  extraction, numeric prerelease ordering, and broader install metadata. It
+  also deleted legacy scripts and ignored dispatch payload content.
+- **Effect on result:** Current architecture and durable decisions record these
+  deviations. The historical design is implemented and is no longer current
+  guidance.
+- **Residual risks:** Live release assets and GitHub Pages remain external
+  dependencies. The smoke test is the post-deploy validation.
 
 > Archived historical design. The implemented registry format is maintained in
 > [`docs/REGISTRY_FORMAT.md`](../../REGISTRY_FORMAT.md). Legacy publish,
