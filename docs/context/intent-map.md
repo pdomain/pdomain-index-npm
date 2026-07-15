@@ -2,7 +2,7 @@
 Status: active
 Owner: repository maintainers
 Created: 2026-07-14
-Last verified: 2026-07-14
+Last verified: 2026-07-15
 Kind: context
 ---
 
@@ -43,7 +43,7 @@ None.
 
 ## Needs owner decision
 
-None.
+- [Automated live smoke](../issues/2026-05-17-gh-007-automated-live-smoke.md) - decide whether every deployment must run the external clean-directory install check or whether documented manual execution is sufficient.
 
 ## Legacy-unverified sweep
 

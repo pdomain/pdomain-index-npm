@@ -2,7 +2,7 @@
 Status: active
 Owner: repository maintainers
 Created: 2026-07-14
-Last verified: 2026-07-14
+Last verified: 2026-07-15
 Kind: context
 ---
 
@@ -20,13 +20,18 @@ Kind: context
 The repository builds a read-only static npm registry. GitHub Pages serves
 packuments, while allowlisted publisher GitHub Releases serve package bytes.
 [`docs/REGISTRY_FORMAT.md`](../REGISTRY_FORMAT.md) is the current architecture.
+The [GitHub issues migration ledger](github-issues-migration-ledger.md)
+preserves historical issue outcomes and cutover provenance.
+New governed reports follow the [repository issue process](../issues/README.md).
 
 `make ci` is the required local gate. It runs TypeScript type checking, ESLint,
 Prettier, actionlint, shell syntax checks, and the Node test suite.
 
 ## In-flight work
 
-No product implementation is recorded as in flight.
+The [automated live smoke decision](../issues/2026-05-17-gh-007-automated-live-smoke.md)
+remains open. The smoke is available manually, but the current deployment does
+not run it.
 
 ## Risks and tests
 

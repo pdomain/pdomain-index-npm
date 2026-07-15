@@ -2,7 +2,7 @@
 Status: built
 Owner: repository maintainers
 Created: 2026-05-17
-Last verified: 2026-07-14
+Last verified: 2026-07-15
 Kind: architecture
 ---
 
@@ -39,6 +39,18 @@ sync scripts after the replacement shipped.
   and `tests/smoke/run.sh`.
 - **Artifacts:** `_site/` is generated and uploaded as the Pages artifact.
 - **Verified:** `make ci` and migration-time source review on 2026-07-14.
+
+## Live smoke test boundary
+
+`make smoke` and `npm run smoke` both invoke `tests/smoke/run.sh`. The script
+checks the deployed registry over the network. It fetches the live packument
+and release-asset tarball, creates a fresh directory with only the registry
+override, runs `npm install`, and checks the installed package name and version.
+
+The smoke test is a manual external check. `make ci` checks its shell syntax but
+does not run it, and `.github/workflows/regen.yml` does not gate deployment on
+it. A successful smoke run proves the selected package version and deployment
+at that time; it does not prove every later deployment.
 
 ## Directory layout
 
