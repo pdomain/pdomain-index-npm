@@ -148,8 +148,31 @@ Preconditions verified before any deletion, on 2026-07-19:
 - All twelve content digests match a fresh GitHub export. See "Digest integrity" above for why the full-record digests do not, and why that is expected.
 - The authenticated actor holds `ADMIN` on the repository.
 
-| Issue     | Node ID | Former URL | Content SHA-256 | Merged commit | Deleted at | Verified absent |
-| --------- | ------- | ---------- | --------------- | ------------- | ---------- | --------------- |
-| _pending_ |         |            |                 |               |            |                 |
+| Issue | Node ID                    | Former URL                                             | Content SHA-256                                                    | Merged commit | Deleted at | Verified absent |
+| ----- | -------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------ | ------------- | ---------- | --------------- |
+| 7     | `I_kwDOSfngyM8AAAABCgcHMw` | https://github.com/pdomain/pdomain-index-npm/issues/7  | `b1fc55269aa1fdcaf930ef0f7efbc50627315aff757fa115721c3c498cd45003` | `832d39c`     | 2026-07-19 | Yes             |
+| 1     | `I_kwDOSfngyM8AAAABCgbYnA` | https://github.com/pdomain/pdomain-index-npm/issues/1  | `32cb6bbda23e5224439a6984971672ac92ff2ac2e1fc5b21587dd3f3fb450784` | `832d39c`     | 2026-07-19 | Yes             |
+| 2     | `I_kwDOSfngyM8AAAABCgcGeg` | https://github.com/pdomain/pdomain-index-npm/issues/2  | `39e211d10ec4451357693665d90906570468fb8f6259804308ca1f857c06cfb5` | `832d39c`     | 2026-07-19 | Yes             |
+| 3     | `I_kwDOSfngyM8AAAABCgcGmA` | https://github.com/pdomain/pdomain-index-npm/issues/3  | `cd4d48c15ab7f86e1e0e4c7bec5b3f5d30a1676bfd6a9ba739ada36c2990c084` | `832d39c`     | 2026-07-19 | Yes             |
+| 4     | `I_kwDOSfngyM8AAAABCgcGrA` | https://github.com/pdomain/pdomain-index-npm/issues/4  | `0a5ac064e2e7f460fcfe02a023184f83c43338ff81d69a08eedf86bbbe6b5716` | `832d39c`     | 2026-07-19 | Yes             |
+| 5     | `I_kwDOSfngyM8AAAABCgcGww` | https://github.com/pdomain/pdomain-index-npm/issues/5  | `c5c41572ac7b8b082a542ec10107b00081e4053e197f87d7332f2df1a1bb6d50` | `832d39c`     | 2026-07-19 | Yes             |
+| 6     | `I_kwDOSfngyM8AAAABCgcG4Q` | https://github.com/pdomain/pdomain-index-npm/issues/6  | `355387a3ca488f065432398559d369fef4f04164974cecf7a873edaa28bbe34b` | `832d39c`     | 2026-07-19 | Yes             |
+| 8     | `I_kwDOSfngyM8AAAABCgcHqA` | https://github.com/pdomain/pdomain-index-npm/issues/8  | `ceb0832a16e25e015f0aa79fcbf33dee7bf22547bd3b7276e4c9f3e52d491d20` | `832d39c`     | 2026-07-19 | Yes             |
+| 9     | `I_kwDOSfngyM8AAAABCgcHxw` | https://github.com/pdomain/pdomain-index-npm/issues/9  | `ada0c3715b518edda1f020a119dbd8e92330b295063adbe4362e7906cfd807c0` | `832d39c`     | 2026-07-19 | Yes             |
+| 10    | `I_kwDOSfngyM8AAAABDJFR7Q` | https://github.com/pdomain/pdomain-index-npm/issues/10 | `937bcf6e085f71c9d58a2b8cf180c5438efe482898de356deb4cb6ade0a155d3` | `832d39c`     | 2026-07-19 | Yes             |
+| 11    | `I_kwDOSfngyM8AAAABDJFSFA` | https://github.com/pdomain/pdomain-index-npm/issues/11 | `4eaef78d1234acd66b40aa6fb206f706593d0b797495ce5db4fafc48b95e5c9d` | `832d39c`     | 2026-07-19 | Yes             |
+| 12    | `I_kwDOSfngyM8AAAABDJFSPQ` | https://github.com/pdomain/pdomain-index-npm/issues/12 | `3121ca1fcb25502655e520e45927afc92ac3c330a720af2bb4a3139a0030ceb8` | `832d39c`     | 2026-07-19 | Yes             |
 
-Deletion order: the closed issue first, then the open issues, in batches of at most ten. GitHub Issues remains enabled after deletion.
+All twelve issues were deleted on 2026-07-19 with the GraphQL `deleteIssue` mutation. Each node ID was re-resolved from GitHub and compared against the archived export immediately before its deletion; every one matched. The closed issue was deleted first, then the eleven open issues in a batch of ten followed by a batch of one.
+
+### Post-deletion verification
+
+Confirmed absent by three independent checks on 2026-07-19:
+
+- `gh issue list --state all` returns zero issues.
+- The REST endpoint `repos/pdomain/pdomain-index-npm/issues/N` returns `HTTP 410 Gone` for every number from 1 to 12.
+- The GraphQL API resolves each issue to `null` with a `NOT_FOUND` error: "Could not resolve to an Issue with the number of N."
+
+One nuance worth recording, because it can mislead a later check. The former web URLs still return `HTTP 200`, not `404`. GitHub serves its generic application shell at those addresses, with the page title "GitHub · Where software is built" rather than any issue content. A browser check therefore looks as though the issue still exists. The API responses above are authoritative; a web request is not a valid absence check.
+
+GitHub Issues remains enabled: `hasIssuesEnabled: true`. The tracker is empty and open for new reports, which are folded into this ledger.
