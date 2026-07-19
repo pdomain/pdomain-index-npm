@@ -73,19 +73,34 @@ Lead with the **smallest decisive evidence**, separate **observation** from
 
 ## Resolved issues
 
-Migrated from the GitHub issue tracker. Each record carries its GitHub
-provenance, its original body and comments verbatim, and the evidence that
-resolved it. See the [migration ledger](../context/github-issues-migration-ledger.md)
-for the full inventory.
+Eleven migrated GitHub issues resolved before the tracker cutover. Their full
+records — GitHub provenance, original bodies and comments verbatim, evidence,
+and root-cause analysis — were committed and then removed from the working
+tree. **Git history is the archive.**
 
-- [Spec: Static npm registry on GitHub Pages](2026-05-17-gh-001-spec-static-npm-registry.md)
-- [Create the GitHub repo + initial scaffold](2026-05-17-gh-002-create-repo-scaffold.md)
-- [Wire GitHub Pages + the `gh-pages` content branch](2026-05-17-gh-003-wire-github-pages.md)
-- [Define the on-disk registry layout + write the `rebuild-packuments` script](2026-05-17-gh-004-registry-layout-and-rebuild-script.md)
-- [Write the `publish.ts` script that adds one tarball to the index](2026-05-17-gh-005-publish-script.md)
-- [GitHub Action — `publish.yml`](2026-05-17-gh-006-publish-workflow.md)
-- [Consumer documentation in README + `.npmrc` example](2026-05-17-gh-008-consumer-docs-and-npmrc.md)
-- [Workspace integration — `.gitignore` anchor + CLAUDE.md notes](2026-05-17-gh-009-workspace-integration.md)
-- [Validate tarball package names before writing registry paths](2026-05-22-gh-010-validate-tarball-package-names.md)
-- [Fix prerelease semver ordering for dist-tags](2026-05-22-gh-011-prerelease-semver-ordering.md)
-- [Fix broken npm smoke script](2026-05-22-gh-012-broken-smoke-script.md)
+Retrieve any of them with:
+
+```bash
+git show c64df8e --stat                    # list all 11 records
+git show c64df8e:docs/issues/<filename>    # read one record
+```
+
+| Issue | Record filename                                           |
+| ----- | --------------------------------------------------------- |
+| #1    | `2026-05-17-gh-001-spec-static-npm-registry.md`           |
+| #2    | `2026-05-17-gh-002-create-repo-scaffold.md`               |
+| #3    | `2026-05-17-gh-003-wire-github-pages.md`                  |
+| #4    | `2026-05-17-gh-004-registry-layout-and-rebuild-script.md` |
+| #5    | `2026-05-17-gh-005-publish-script.md`                     |
+| #6    | `2026-05-17-gh-006-publish-workflow.md`                   |
+| #8    | `2026-05-17-gh-008-consumer-docs-and-npmrc.md`            |
+| #9    | `2026-05-17-gh-009-workspace-integration.md`              |
+| #10   | `2026-05-22-gh-010-validate-tarball-package-names.md`     |
+| #11   | `2026-05-22-gh-011-prerelease-semver-ordering.md`         |
+| #12   | `2026-05-22-gh-012-broken-smoke-script.md`                |
+
+Durable behavior from these issues lives in
+[Registry Format](../architecture/registry-format.md). Provenance, digests, and
+outcomes live in the
+[migration ledger](../context/github-issues-migration-ledger.md). The raw API
+exports remain in the working tree under `migration/github-issues/raw/`.

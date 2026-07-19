@@ -85,6 +85,14 @@ Every GitHub issue appears exactly once. The inventory table above carries prove
 
 Counts reconcile at twelve: twelve GitHub issues, twelve raw exports, twelve inventory rows, twelve reconciliation rows.
 
+### Archived issue records
+
+Eleven of the twelve issues received a full governed record — GitHub provenance, original body and comments verbatim, evidence, root-cause analysis, and resolution. Those records were committed in `c64df8e` and removed from the working tree in the commit that follows it. Git history is the archive; retrieve a record with `git show c64df8e:docs/issues/<filename>`, or list them all with `git show c64df8e --stat`. The [issues README](../issues/README.md) carries the filename table.
+
+Issue #7 is the exception. Its record stays live at [`docs/issues/2026-05-17-gh-007-automated-live-smoke.md`](../issues/2026-05-17-gh-007-automated-live-smoke.md) because it tracks an unresolved decision: whether deployment must run the live smoke automatically.
+
+The raw API exports under `migration/github-issues/raw/` are not archived this way. They stay in the working tree as the checkable provenance source behind every digest in this ledger.
+
 ## Retention policy
 
 This repository does not delete its migrated GitHub issues, and GitHub Issues stays enabled.
