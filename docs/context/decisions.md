@@ -63,7 +63,7 @@ Kind: context
   shipped design and material deviations.
 - **Remaining work:** The two deferred intent items remain optional.
 
-### 2026-07-19 — Retain migrated GitHub issues; keep Issues enabled
+### 2026-07-19 — Retain migrated GitHub issues; keep Issues enabled (SUPERSEDED)
 
 - **Decision:** Do not delete this repository's migrated GitHub issues, and
   leave GitHub Issues enabled.
@@ -85,6 +85,9 @@ Kind: context
 - **Remaining work:** Eleven issues remain open on GitHub while classified
   Completed or Superseded. Closing them would be accurate but is outward-facing
   and needs explicit owner approval.
+- **Superseded by:** the decision below, recorded the same day. The owner chose
+  permanent deletion instead of retention. This entry is kept because it records
+  the reasoning that was weighed and rejected.
 
 ### 2026-07-19 — Retired: Issue tracker migration pickup prompt
 
@@ -101,3 +104,31 @@ Kind: context
 - **Remaining work:** None. The file carries a retirement banner correcting its
   two false claims: that issue `#7` does not exist, and that the backlog was
   unfinished rather than largely already shipped.
+
+### 2026-07-19 — Permanently delete migrated GitHub issues; keep Issues enabled
+
+- **Decision:** Permanently delete all twelve migrated GitHub issues. Leave
+  GitHub Issues enabled.
+- **Supersedes:** the retention decision above, recorded earlier the same day.
+- **Context:** The shared runbook
+  `shared-devtools/docs/runbooks/github-issues-to-docgraph-migration-prompt.md`
+  ends in permanent deletion and `hasIssuesEnabled: false`. This repository
+  takes the deletion step and declines the disable step, so the tracker stays
+  open for new reports.
+- **Rationale:** The durable content is already promoted and pushed. Behavior
+  lives in [`registry-format.md`](../architecture/registry-format.md),
+  provenance and outcomes in the
+  [migration ledger](github-issues-migration-ledger.md), full issue records in
+  Git history at `c64df8e`, and the raw API exports in the working tree. Leaving
+  eleven finished items open on the tracker misrepresented the project's state.
+- **Consequences:** Every issue URL cited in the ledger and in the issue 7
+  record stops resolving. Those links become historical identifiers rather than
+  working references; the raw exports and archived records carry the content.
+  Deletion is permanent and has no rollback.
+- **Integrity note:** The full-record digests recorded at export are no longer
+  reproducible, because pushing the migration commits added cross-reference
+  timeline events to most issues. Content digests over the GraphQL payload were
+  verified identical for all twelve immediately before deletion, and are
+  recorded in the ledger. See the ledger's "Digest integrity" section.
+- **Remaining work:** None once the deletion journal records verified absence
+  for all twelve.
