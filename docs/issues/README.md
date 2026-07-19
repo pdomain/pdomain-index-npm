@@ -73,4 +73,19 @@ Lead with the **smallest decisive evidence**, separate **observation** from
 
 ## Resolved issues
 
-- _None yet._
+Migrated from the GitHub issue tracker. Each record carries its GitHub
+provenance, its original body and comments verbatim, and the evidence that
+resolved it. See the [migration ledger](../context/github-issues-migration-ledger.md)
+for the full inventory.
+
+- [Spec: Static npm registry on GitHub Pages](2026-05-17-gh-001-spec-static-npm-registry.md)
+- [Create the GitHub repo + initial scaffold](2026-05-17-gh-002-create-repo-scaffold.md)
+- [Wire GitHub Pages + the `gh-pages` content branch](2026-05-17-gh-003-wire-github-pages.md)
+- [Define the on-disk registry layout + write the `rebuild-packuments` script](2026-05-17-gh-004-registry-layout-and-rebuild-script.md)
+- [Write the `publish.ts` script that adds one tarball to the index](2026-05-17-gh-005-publish-script.md)
+- [GitHub Action — `publish.yml`](2026-05-17-gh-006-publish-workflow.md)
+- [Consumer documentation in README + `.npmrc` example](2026-05-17-gh-008-consumer-docs-and-npmrc.md)
+- [Workspace integration — `.gitignore` anchor + CLAUDE.md notes](2026-05-17-gh-009-workspace-integration.md)
+- [Validate tarball package names before writing registry paths](2026-05-22-gh-010-validate-tarball-package-names.md)
+- [Fix prerelease semver ordering for dist-tags](2026-05-22-gh-011-prerelease-semver-ordering.md)
+- [Fix broken npm smoke script](2026-05-22-gh-012-broken-smoke-script.md)

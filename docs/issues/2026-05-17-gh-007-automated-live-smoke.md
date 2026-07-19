@@ -43,7 +43,8 @@ The original GitHub issue was closed after one successful historical run. This l
 - **Comments:** One public comment by `ConcaveTrillion` at 2026-05-17T18:16:12Z, [source](https://github.com/pdomain/pdomain-index-npm/issues/7#issuecomment-4472050503)
 - **Raw SHA-256:** `3f4cfb9775cc3e0e0652f5308e163b2c3db91f3982b86d283af52916c58791f8`
 - **Raw record:** `migration/github-issues/raw/issue-7.json`
-- **Cutover commit:** Pending until the migration batch commit is created; the migration ledger records the immutable merged commit before deletion.
+- **Cutover commit:** `fd27739`, merged to `master` in `3ed18c0`.
+- **Retention:** This issue is retained on GitHub. See the [migration ledger](../context/github-issues-migration-ledger.md) retention policy; the migration does not delete issues.
 
 ## Impact
 
