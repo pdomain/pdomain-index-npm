@@ -1,8 +1,8 @@
 # Smoke Test
 
 The `run.sh` script is the end-to-end integration test for `pdomain-index-npm`. It
-proves that `npm install` can resolve `@pdomain/pdomain-ui` from the static
-registry exactly as it would from npmjs.org.
+proves that a clean npm client can install `@pdomain/pdomain-ui` through the
+configured `@pdomain` registry override.
 
 ## What the smoke proves
 
@@ -24,8 +24,12 @@ By default, the smoke checks `@pdomain/pdomain-ui@latest`.
 ## How to run locally
 
 ```sh
-bash tests/smoke/run.sh
+make smoke
 ```
+
+`npm run smoke` and `bash tests/smoke/run.sh` run the same check. This is a live
+network test. The normal `make ci` gate checks the script's shell syntax but
+does not execute the smoke against the deployed registry.
 
 Expected output ends with `SMOKE PASSED`. Exit code is 0 on success, non-zero
 on any step failure.
@@ -52,4 +56,4 @@ VERSION=0.2.2 bash tests/smoke/run.sh
 | `curl` 404 on tarball URL          | GitHub Release asset is missing or private                                  | Check the publisher repository release assets                        |
 | `npm install` fails with 404       | Packument's `dist.tarball` URL is not the expected GitHub Release asset URL | Regenerate the index from the publisher repository releases          |
 | Installed package metadata differs | Packument points at the wrong release asset or stale content                | Regenerate the index and verify the publisher release asset contents |
-| Smoke flakes in CI                 | Pages lag exceeded the polling window                                       | Increase the poll attempts/backoff in the smoke job                  |
+| Smoke fails soon after deployment  | Pages lag exceeded the polling window                                       | Wait for Pages deployment, then rerun the smoke                      |
