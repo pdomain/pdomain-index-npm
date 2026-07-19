@@ -88,7 +88,7 @@ GitHub-generated release notes are canonical for tooling releases.
 
 ## Layout
 
-See [docs/REGISTRY_FORMAT.md](docs/REGISTRY_FORMAT.md) for the on-disk
+See [docs/architecture/registry-format.md](docs/architecture/registry-format.md) for the on-disk
 shape and the parts of the npm registry HTTP API we serve.
 
 ## Contributing

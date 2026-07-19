@@ -19,7 +19,7 @@ Kind: context
 
 The repository builds a read-only static npm registry. GitHub Pages serves
 packuments, while allowlisted publisher GitHub Releases serve package bytes.
-[`docs/REGISTRY_FORMAT.md`](../REGISTRY_FORMAT.md) is the current architecture.
+[`docs/architecture/registry-format.md`](../architecture/registry-format.md) is the current architecture.
 The [GitHub issues migration ledger](github-issues-migration-ledger.md)
 preserves historical issue outcomes and cutover provenance.
 New governed reports follow the [repository issue process](../issues/README.md).

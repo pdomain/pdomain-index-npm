@@ -36,16 +36,16 @@ Kind: context
 - **Rationale:** These checks keep package identity and resource use under the
   registry's control.
 - **Evidence:** `scripts/regen-index.ts`, `tests/test_regen_index.test.ts`,
-  `docs/REGISTRY_FORMAT.md`, commits `59ae42b`, `123c36b`, and `83ca383`.
+  `docs/architecture/registry-format.md`, commits `59ae42b`, `123c36b`, and `83ca383`.
 - **Remaining work:** Add new publishers only with explicit mappings and tests.
 
 ### 2026-07-14 — Retired: npm Release Asset Registry Implementation Plan
 
 - **Old path:** `docs/archive/plans/2026-05-30-npm-release-asset-registry.md`
 - **Outcome:** Implemented and deleted after promotion.
-- **Superseded by:** [`docs/REGISTRY_FORMAT.md`](../REGISTRY_FORMAT.md)
+- **Superseded by:** [`docs/architecture/registry-format.md`](../architecture/registry-format.md)
 - **Removal commit:** `f7ca51d`.
-- **Rationale kept:** [`docs/REGISTRY_FORMAT.md`](../REGISTRY_FORMAT.md) records
+- **Rationale kept:** [`docs/architecture/registry-format.md`](../architecture/registry-format.md) records
   the shipped workflow and deviations. The decision “Keep full regeneration as
   the trusted deployment path” records why. The
   [`intent map`](intent-map.md) retains incremental regeneration and allowlist
@@ -56,9 +56,9 @@ Kind: context
 
 - **Old path:** `docs/archive/specs/2026-05-30-npm-release-asset-registry-design.md`
 - **Outcome:** Implemented and deleted after promotion.
-- **Superseded by:** [`docs/REGISTRY_FORMAT.md`](../REGISTRY_FORMAT.md)
+- **Superseded by:** [`docs/architecture/registry-format.md`](../architecture/registry-format.md)
 - **Removal commit:** `f7ca51d`.
-- **Rationale kept:** [`docs/REGISTRY_FORMAT.md`](../REGISTRY_FORMAT.md) and the
+- **Rationale kept:** [`docs/architecture/registry-format.md`](../architecture/registry-format.md) and the
   decision “Expand validation beyond the migration design” preserve the
   shipped design and material deviations.
 - **Remaining work:** The two deferred intent items remain optional.

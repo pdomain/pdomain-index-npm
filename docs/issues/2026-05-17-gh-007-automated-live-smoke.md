@@ -20,7 +20,7 @@ Level: I1
 - **Affected version:** `master` at the GitHub Issues cutover
 - **Read when:** changing deployment verification or deciding whether to restore a post-deploy smoke.
 - **Search terms:** automated smoke, live registry, deployment gate, npm install, GitHub issue 7.
-- **Relates to:** [Registry Format](../REGISTRY_FORMAT.md), [migration ledger](../context/github-issues-migration-ledger.md)
+- **Relates to:** [Registry Format](../architecture/registry-format.md), [migration ledger](../context/github-issues-migration-ledger.md)
 
 ## Summary
 
