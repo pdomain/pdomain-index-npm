@@ -1,6 +1,6 @@
 ---
 kind: handoff
-status: "active"
+status: "retired"
 created: "2026-07-17"
 created_at: "2026-07-17T09:19:00Z"
 owner: CT
@@ -13,10 +13,37 @@ supersedes: ""
 
 # Issue tracker migration — pickup prompt
 
+> **Retired 2026-07-19. Do not follow this procedure, and do not cite its
+> factual claims.** The migration ran against the shared runbook
+> `shared-devtools/docs/runbooks/github-issues-to-docgraph-migration-prompt.md`
+> instead. What actually shipped is recorded in
+> [the migration ledger](../context/github-issues-migration-ledger.md).
+> This file is kept only as a record of the approach that was considered and
+> replaced.
+>
+> Two claims below are false and were never true as written:
+>
+> - It states issue `#7` "does not exist in this repo's numbering." Issue `#7`
+>   exists and was closed on 2026-05-17. It is archived at
+>   `migration/github-issues/raw/issue-7.json` and holds an active record at
+>   [`docs/issues/2026-05-17-gh-007-automated-live-smoke.md`](../issues/2026-05-17-gh-007-automated-live-smoke.md).
+>   The error came from reading an open-issues-only query as the full set, which
+>   also makes the repeated "11 issues" scope wrong: the real total is twelve.
+> - It reads the backlog as "a real, unfinished backlog, not a stale or
+>   duplicate pile" and concludes none of it is "done-but-not-closed."
+>   Verification against current code found the opposite. Eleven of the twelve
+>   are Completed or Superseded; only `#7` carries live work.
+>
+> Three structural claims are simply out of date: `docs/` gained
+> `architecture/`, `issues/`, and `handoff/`; `docs/roadmap.md` and
+> `docs/decisions/` were never created, because the ledger and
+> `docs/context/decisions.md` serve those roles; and the planned deletion step
+> was dropped entirely — see the ledger's retention policy.
+
 ## Agent Index
 
 - Kind: handoff
-- Status: active
+- Status: retired
 - Read when: you are about to migrate this repo's GitHub issue tracker into
   docs, or you are asked to clear/archive/close out the open issue backlog
   for `pdomain-index-npm`.

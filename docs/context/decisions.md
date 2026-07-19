@@ -62,3 +62,42 @@ Kind: context
   decision “Expand validation beyond the migration design” preserve the
   shipped design and material deviations.
 - **Remaining work:** The two deferred intent items remain optional.
+
+### 2026-07-19 — Retain migrated GitHub issues; keep Issues enabled
+
+- **Decision:** Do not delete this repository's migrated GitHub issues, and
+  leave GitHub Issues enabled.
+- **Context:** The shared runbook
+  `shared-devtools/docs/runbooks/github-issues-to-docgraph-migration-prompt.md`
+  ends in permanent deletion and `hasIssuesEnabled: false`. This repository
+  stops short of both.
+- **Rationale:** The durable content already lives in governed docs, and the
+  [migration ledger](github-issues-migration-ledger.md) proves every issue has
+  an architecture, decision, intent, or active-record destination. The GitHub
+  copies are redundant rather than authoritative, so deleting them would add
+  irreversibility without adding truth. Keeping Issues open preserves an intake
+  channel for anyone reporting a problem.
+- **Consequences:** The runbook's deletion gates do not apply here — the
+  org-level deletion setting, the deletion journal, and the delete-then-verify
+  batches are all out of scope. The ledger becomes a living document: a newly
+  filed issue is folded in with an inventory row, a raw export and digest, and a
+  reconciliation row.
+- **Remaining work:** Eleven issues remain open on GitHub while classified
+  Completed or Superseded. Closing them would be accurate but is outward-facing
+  and needs explicit owner approval.
+
+### 2026-07-19 — Retired: Issue tracker migration pickup prompt
+
+- **Old path:** `docs/handoff/2026-07-17-issue-tracker-migration.md` (retained
+  in place, status `retired`)
+- **Outcome:** Superseded before execution.
+- **Superseded by:** [`migration ledger`](github-issues-migration-ledger.md)
+- **Removal commit:** N/A — kept in place as a record of the replaced approach.
+- **Rationale kept:** The ledger records what shipped. The handoff proposed a
+  different procedure — `docs/roadmap.md`, a `docs/decisions/` archive doc,
+  an add-then-`git rm` tombstone, then issue deletion — none of which ran. The
+  migration followed the shared runbook instead, and deletion was dropped by the
+  retention decision above.
+- **Remaining work:** None. The file carries a retirement banner correcting its
+  two false claims: that issue `#7` does not exist, and that the backlog was
+  unfinished rather than largely already shipped.
