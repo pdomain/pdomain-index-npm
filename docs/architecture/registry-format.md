@@ -2,7 +2,7 @@
 Status: built
 Owner: repository maintainers
 Created: 2026-05-17
-Last verified: 2026-07-15
+Last verified: 2026-07-19
 Kind: architecture
 ---
 
@@ -38,7 +38,10 @@ sync scripts after the replacement shipped.
 - **Tests:** `tests/test_regen_index.test.ts`, `tests/test_workflows.test.ts`,
   and `tests/smoke/run.sh`.
 - **Artifacts:** `_site/` is generated and uploaded as the Pages artifact.
-- **Verified:** `make ci` and migration-time source review on 2026-07-14.
+- **Verified:** `make ci` and source review on 2026-07-19. The trust model,
+  dist-tags precedence, and smoke-boundary sections were each re-checked against
+  `scripts/regen-index.ts`, `package.json`, and the named tests during the
+  GitHub issues cutover.
 
 ## Live smoke test boundary
 

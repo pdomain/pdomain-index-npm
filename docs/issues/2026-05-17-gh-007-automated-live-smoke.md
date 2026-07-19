@@ -2,7 +2,7 @@
 Status: active
 Owner: repository maintainers
 Created: 2026-05-17
-Last verified: 2026-07-15
+Last verified: 2026-07-19
 Kind: issue
 Level: I1
 ---
@@ -14,7 +14,7 @@ Level: I1
 - **Kind:** issue
 - **Status:** active
 - **Level:** I1
-- **Last verified:** 2026-07-15
+- **Last verified:** 2026-07-19
 - **Resolution:** Open
 - **Severity:** Medium - deployment regressions lack an automated live check
 - **Affected version:** `master` at the GitHub Issues cutover

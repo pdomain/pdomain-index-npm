@@ -2,7 +2,7 @@
 Status: active
 Owner: repository maintainers
 Created: 2026-07-14
-Last verified: 2026-07-15
+Last verified: 2026-07-19
 Kind: context
 ---
 
@@ -19,6 +19,11 @@ Kind: context
 
 - **Full allowlisted regeneration:** Keep every trigger deterministic by
   rebuilding the complete registry from trusted release assets.
+- **Docs-as-issue-tracker:** Issue history lives in `docs/issues/` and the
+  [migration ledger](github-issues-migration-ledger.md), not on GitHub. Completed
+  2026-07-19: all twelve GitHub issues were migrated and permanently deleted.
+  GitHub Issues stays enabled as an intake channel, and anything filed there is
+  folded into the ledger rather than left as a second source of truth.
 
 ## Deferred work
 
@@ -36,6 +41,13 @@ Kind: context
   Releases; historical Pages tarball URLs are not a compatibility promise.
 - **Dispatch-payload publishing:** Dispatch is only a regeneration signal. The
   workflow does not trust or publish payload-provided tarball URLs directly.
+- **Retaining migrated GitHub issues:** Considered and rejected on 2026-07-19.
+  Retention was recorded as a decision, then superseded the same day in favour of
+  permanent deletion, because leaving eleven finished items open misrepresented
+  the project's state once their content was promoted and pushed. Both entries
+  are kept in [decisions](decisions.md).
+- **Disabling GitHub Issues:** The shared runbook ends by disabling Issues. This
+  repository declines that step so the tracker stays open for new reports.
 
 ## Blocked (waiting on)
 
@@ -52,3 +64,11 @@ None.
   current truth and residual intent were preserved.
 - [`docs/process/writing-style.md`](../process/writing-style.md) — still-active;
   `CLAUDE.md` and `CONVENTIONS.md` continue to require it.
+- [`docs/handoff/2026-07-17-issue-tracker-migration.md`](../handoff/2026-07-17-issue-tracker-migration.md)
+  — superseded; retired 2026-07-19 and kept in place with a banner correcting two
+  false claims it made. Its procedure never ran; the shared runbook was followed
+  instead. Tombstone in [decisions](decisions.md).
+- The eleven completed issue records created during the migration were archived
+  in `c64df8e` and removed in `832d39c` — can-retire, already applied. Only the
+  active [automated live smoke](../issues/2026-05-17-gh-007-automated-live-smoke.md)
+  record remains in the working tree.
