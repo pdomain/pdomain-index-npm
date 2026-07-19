@@ -64,10 +64,11 @@ None.
   current truth and residual intent were preserved.
 - [`docs/process/writing-style.md`](../process/writing-style.md) — still-active;
   `CLAUDE.md` and `CONVENTIONS.md` continue to require it.
-- [`docs/handoff/2026-07-17-issue-tracker-migration.md`](../handoff/2026-07-17-issue-tracker-migration.md)
-  — superseded; retired 2026-07-19 and kept in place with a banner correcting two
-  false claims it made. Its procedure never ran; the shared runbook was followed
-  instead. Tombstone in [decisions](decisions.md).
+- `docs/handoff/2026-07-17-issue-tracker-migration.md` — superseded; retired and
+  then deleted on 2026-07-19. Its procedure never ran; the shared runbook was
+  followed instead. Archived in Git history at `c378041`; read it with
+  `git show c378041:docs/handoff/2026-07-17-issue-tracker-migration.md`.
+  Tombstone in [decisions](decisions.md).
 - The eleven completed issue records created during the migration were archived
   in `c64df8e` and removed in `832d39c` — can-retire, already applied. Only the
   active [automated live smoke](../issues/2026-05-17-gh-007-automated-live-smoke.md)

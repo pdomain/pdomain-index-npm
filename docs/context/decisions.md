@@ -91,11 +91,14 @@ Kind: context
 
 ### 2026-07-19 — Retired: Issue tracker migration pickup prompt
 
-- **Old path:** `docs/handoff/2026-07-17-issue-tracker-migration.md` (retained
-  in place, status `retired`)
+- **Old path:** `docs/handoff/2026-07-17-issue-tracker-migration.md` (deleted)
 - **Outcome:** Superseded before execution.
 - **Superseded by:** [`migration ledger`](github-issues-migration-ledger.md)
-- **Removal commit:** N/A — kept in place as a record of the replaced approach.
+- **Removal commit:** Deleted on 2026-07-19, after the migration it described
+  had completed. Last present at `c378041`; read it with
+  `git show c378041:docs/handoff/2026-07-17-issue-tracker-migration.md`. It was
+  briefly retained in place with a correction banner, then removed once the
+  cutover finished and `docs/handoff/` had no active handoff left.
 - **Rationale kept:** The ledger records what shipped. The handoff proposed a
   different procedure — `docs/roadmap.md`, a `docs/decisions/` archive doc,
   an add-then-`git rm` tombstone, then issue deletion — none of which ran. The
