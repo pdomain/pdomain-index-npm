@@ -126,8 +126,12 @@ documented for `pdomain-ui` in
 `pdomain-ui/docs/specs/2026-07-16-dep-refresh-auto-land-design.md` (Bug 1),
 where branch protection requires a plain `unit-test` context but CI only ever
 reports sharded `unit-test (1/4)` … `unit-test (4/4)`, so no pull request —
-including a fully green one — can ever satisfy the gate. That spec also
-documents the same peer defect in `pdomain-ops` and `pdomain-ocr-training`.
+including a fully green one — can ever satisfy the gate. The spec covers
+`pdomain-ui` only. The same class of defect was found separately on
+2026-08-08 in `pdomain-ops`, `pdomain-ocr-training`, and
+`pdomain-book-tools`, each from a different cause: stale context names left
+by a repo rename in the first two, and a context naming the workflow rather
+than a job in the third.
 Neither the never-satisfiable-gate defect nor its symptom (unmerged,
 accumulating PRs) is present here: the required contexts are directly
 satisfiable, and all 7 recent dep-refresh PRs did in fact merge.
