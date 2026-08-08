@@ -74,6 +74,7 @@ Lead with the **smallest decisive evidence**, separate **observation** from
 ## Open issues
 
 - [Decide whether deployments need an automated live smoke](2026-05-17-gh-007-automated-live-smoke.md)
+- [dep-refresh branches accumulate on origin instead of being deleted after merge](2026-08-08-dep-refresh-cannot-auto-land.md)
 
 ## Where resolved work is recorded
 
