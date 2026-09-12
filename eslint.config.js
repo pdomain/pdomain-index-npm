@@ -4,7 +4,15 @@ import tseslint from "typescript-eslint";
 
 export default tseslint.config(
   {
-    ignores: ["dist/**", "node_modules/**", "_site/**", "registry/**"],
+    ignores: [
+      "dist/**",
+      "node_modules/**",
+      "_site/**",
+      "registry/**",
+      // Python tooling environment; holds vendored JS that is not ours.
+      ".venv/**",
+      ".venv-container/**",
+    ],
   },
   js.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked.map((config) => ({

@@ -57,7 +57,7 @@ at that time; it does not prove every later deployment.
 
 ## Directory layout
 
-```
+```text
 /                                          # GitHub Pages root
   index.html                               # Human-readable landing page
   @pdomain/                        # Scope directory

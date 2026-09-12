@@ -20,3 +20,7 @@ __pycache__/
 
 # Agent memory (per workspace convention; never tracked inside pd-* trees)
 .claude/
+
+# Python tooling environment (see pyproject.toml).
+.venv/
+.venv-container/

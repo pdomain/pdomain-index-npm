@@ -1,7 +1,7 @@
 # pdomain-index-npm — static npm registry tooling
 # Usage: make <target>
 
-.PHONY: help setup install typecheck lint lint-check format-check actionlint shell-check static-check pre-commit-check test build ci ci-slow release-patch release-minor release-major _do-release regen-index smoke upgrade-deps
+.PHONY: help setup install-hooks install typecheck lint lint-check format-check actionlint shell-check static-check pre-commit-check test build ci ci-slow release-patch release-minor release-major _do-release regen-index smoke upgrade-deps
 
 REGEN_ROOT ?= _site
 
@@ -11,6 +11,21 @@ help: ## Show this help message
 
 setup: ## Install dependencies from package-lock.json
 	npm ci
+	@$(MAKE) --no-print-directory install-hooks
+
+install-hooks: ## (Re)install pre-commit hooks (repairs a stale interpreter path)
+	@# `pre-commit install` bakes an absolute interpreter path into .git/hooks.
+	@# A hook written against a different environment name, or against a worktree
+	@# that has since been deleted, keeps failing until it is rewritten — and a
+	@# "skip if the file exists" guard never rewrites it. Rewriting costs ~0.2s,
+	@# so do it every time this repo owns its hooks directory.
+	@if [ -f .git ]; then \
+	  echo "hooks: worktree checkout — the canonical repo owns them, skipping"; \
+	elif [ -n "$$(git config --get core.hooksPath 2>/dev/null)" ]; then \
+	  echo "hooks: core.hooksPath is set — leaving it alone, skipping"; \
+	else \
+	  uv run pre-commit install --hook-type pre-commit --hook-type commit-msg; \
+	fi
 
 install: setup ## Alias for setup
 

@@ -1,0 +1,41 @@
+# Tooling-only project. This repository ships an npm package; the JavaScript
+# gate lives in package.json. What lives here is the Python tooling for
+# scripts/, plus pre-commit itself, so `uv run` works the same way it does in
+# every other pdomain-* repo.
+[project]
+name = "pdomain-index-npm-tooling"
+version = "0"
+description = "Python tooling for the pdomain-index-npm maintenance scripts"
+requires-python = ">=3.11,<3.14"
+dependencies = []
+
+[dependency-groups]
+dev = [
+    "basedpyright>=1.39.4",
+    "pre-commit>=4.6,<5",
+    # Keep this floor at the ruff-pre-commit `rev:` in .pre-commit-config.yaml.
+    # Below it, `uv run ruff check` and the hook disagree on a clean tree.
+    "ruff>=0.16.7,<1",
+]
+
+[tool.ruff]
+target-version = "py311"
+include = ["scripts/**/*.py"]
+
+[tool.ruff.lint]
+# Matches pdomain-ui, which lints the same update_github_actions.py script.
+# The S (security) family is opted in because that script shells out to `gh`
+# to rewrite GitHub Action SHAs, and the argv-list pattern deserves a check.
+select = [
+    "E", "W", "F", "I", "B", "UP", "SIM", "C4", "PERF", "RET", "PT", "RUF",
+    "FA", "PTH", "TC", "PIE", "PLE", "S",
+]
+ignore = [
+    "E501",    # line length off (house convention)
+    "COM812",  # trailing comma — conflicts with the formatter
+]
+
+[tool.basedpyright]
+include = ["scripts"]
+typeCheckingMode = "recommended"
+failOnWarnings = false

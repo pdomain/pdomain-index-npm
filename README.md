@@ -22,7 +22,7 @@ Python package index.
 
 ## URL
 
-```
+```text
 https://pdomain.github.io/pdomain-index-npm/
 ```
 
@@ -30,7 +30,7 @@ https://pdomain.github.io/pdomain-index-npm/
 
 Add to your project's `.npmrc`:
 
-```
+```text
 @pdomain:registry=https://pdomain.github.io/pdomain-index-npm/
 ```
 

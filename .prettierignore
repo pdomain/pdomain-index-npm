@@ -3,3 +3,7 @@ node_modules/
 _site/
 registry/
 *.tgz
+
+# Python tooling environment.
+.venv/
+.venv-container/

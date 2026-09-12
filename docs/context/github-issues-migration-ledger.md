@@ -148,20 +148,20 @@ Preconditions verified before any deletion, on 2026-07-19:
 - All twelve content digests match a fresh GitHub export. See "Digest integrity" above for why the full-record digests do not, and why that is expected.
 - The authenticated actor holds `ADMIN` on the repository.
 
-| Issue | Node ID                    | Former URL                                             | Content SHA-256                                                    | Merged commit | Deleted at | Verified absent |
-| ----- | -------------------------- | ------------------------------------------------------ | ------------------------------------------------------------------ | ------------- | ---------- | --------------- |
-| 7     | `I_kwDOSfngyM8AAAABCgcHMw` | https://github.com/pdomain/pdomain-index-npm/issues/7  | `5eb97ff966c05eccc0019dd64af35a1a379ada5ff67ec2ef8cc640214ba6f7d9` | `832d39c`     | 2026-07-19 | Yes             |
-| 1     | `I_kwDOSfngyM8AAAABCgbYnA` | https://github.com/pdomain/pdomain-index-npm/issues/1  | `32cb6bbda23e5224439a6984971672ac92ff2ac2e1fc5b21587dd3f3fb450784` | `832d39c`     | 2026-07-19 | Yes             |
-| 2     | `I_kwDOSfngyM8AAAABCgcGeg` | https://github.com/pdomain/pdomain-index-npm/issues/2  | `39e211d10ec4451357693665d90906570468fb8f6259804308ca1f857c06cfb5` | `832d39c`     | 2026-07-19 | Yes             |
-| 3     | `I_kwDOSfngyM8AAAABCgcGmA` | https://github.com/pdomain/pdomain-index-npm/issues/3  | `cd4d48c15ab7f86e1e0e4c7bec5b3f5d30a1676bfd6a9ba739ada36c2990c084` | `832d39c`     | 2026-07-19 | Yes             |
-| 4     | `I_kwDOSfngyM8AAAABCgcGrA` | https://github.com/pdomain/pdomain-index-npm/issues/4  | `0a5ac064e2e7f460fcfe02a023184f83c43338ff81d69a08eedf86bbbe6b5716` | `832d39c`     | 2026-07-19 | Yes             |
-| 5     | `I_kwDOSfngyM8AAAABCgcGww` | https://github.com/pdomain/pdomain-index-npm/issues/5  | `c5c41572ac7b8b082a542ec10107b00081e4053e197f87d7332f2df1a1bb6d50` | `832d39c`     | 2026-07-19 | Yes             |
-| 6     | `I_kwDOSfngyM8AAAABCgcG4Q` | https://github.com/pdomain/pdomain-index-npm/issues/6  | `d9741882c9385e9b51d66fe58c174e91b152f18df7093c31735b31804d1acb69` | `832d39c`     | 2026-07-19 | Yes             |
-| 8     | `I_kwDOSfngyM8AAAABCgcHqA` | https://github.com/pdomain/pdomain-index-npm/issues/8  | `ceb0832a16e25e015f0aa79fcbf33dee7bf22547bd3b7276e4c9f3e52d491d20` | `832d39c`     | 2026-07-19 | Yes             |
-| 9     | `I_kwDOSfngyM8AAAABCgcHxw` | https://github.com/pdomain/pdomain-index-npm/issues/9  | `14f241d2a847af94e696d44618ecf5c4e2f469ede74ba3a55be2bc5a1477d1a7` | `832d39c`     | 2026-07-19 | Yes             |
-| 10    | `I_kwDOSfngyM8AAAABDJFR7Q` | https://github.com/pdomain/pdomain-index-npm/issues/10 | `937bcf6e085f71c9d58a2b8cf180c5438efe482898de356deb4cb6ade0a155d3` | `832d39c`     | 2026-07-19 | Yes             |
-| 11    | `I_kwDOSfngyM8AAAABDJFSFA` | https://github.com/pdomain/pdomain-index-npm/issues/11 | `4eaef78d1234acd66b40aa6fb206f706593d0b797495ce5db4fafc48b95e5c9d` | `832d39c`     | 2026-07-19 | Yes             |
-| 12    | `I_kwDOSfngyM8AAAABDJFSPQ` | https://github.com/pdomain/pdomain-index-npm/issues/12 | `3121ca1fcb25502655e520e45927afc92ac3c330a720af2bb4a3139a0030ceb8` | `832d39c`     | 2026-07-19 | Yes             |
+| Issue | Node ID                    | Former URL                                               | Content SHA-256                                                    | Merged commit | Deleted at | Verified absent |
+| ----- | -------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------ | ------------- | ---------- | --------------- |
+| 7     | `I_kwDOSfngyM8AAAABCgcHMw` | <https://github.com/pdomain/pdomain-index-npm/issues/7>  | `5eb97ff966c05eccc0019dd64af35a1a379ada5ff67ec2ef8cc640214ba6f7d9` | `832d39c`     | 2026-07-19 | Yes             |
+| 1     | `I_kwDOSfngyM8AAAABCgbYnA` | <https://github.com/pdomain/pdomain-index-npm/issues/1>  | `32cb6bbda23e5224439a6984971672ac92ff2ac2e1fc5b21587dd3f3fb450784` | `832d39c`     | 2026-07-19 | Yes             |
+| 2     | `I_kwDOSfngyM8AAAABCgcGeg` | <https://github.com/pdomain/pdomain-index-npm/issues/2>  | `39e211d10ec4451357693665d90906570468fb8f6259804308ca1f857c06cfb5` | `832d39c`     | 2026-07-19 | Yes             |
+| 3     | `I_kwDOSfngyM8AAAABCgcGmA` | <https://github.com/pdomain/pdomain-index-npm/issues/3>  | `cd4d48c15ab7f86e1e0e4c7bec5b3f5d30a1676bfd6a9ba739ada36c2990c084` | `832d39c`     | 2026-07-19 | Yes             |
+| 4     | `I_kwDOSfngyM8AAAABCgcGrA` | <https://github.com/pdomain/pdomain-index-npm/issues/4>  | `0a5ac064e2e7f460fcfe02a023184f83c43338ff81d69a08eedf86bbbe6b5716` | `832d39c`     | 2026-07-19 | Yes             |
+| 5     | `I_kwDOSfngyM8AAAABCgcGww` | <https://github.com/pdomain/pdomain-index-npm/issues/5>  | `c5c41572ac7b8b082a542ec10107b00081e4053e197f87d7332f2df1a1bb6d50` | `832d39c`     | 2026-07-19 | Yes             |
+| 6     | `I_kwDOSfngyM8AAAABCgcG4Q` | <https://github.com/pdomain/pdomain-index-npm/issues/6>  | `d9741882c9385e9b51d66fe58c174e91b152f18df7093c31735b31804d1acb69` | `832d39c`     | 2026-07-19 | Yes             |
+| 8     | `I_kwDOSfngyM8AAAABCgcHqA` | <https://github.com/pdomain/pdomain-index-npm/issues/8>  | `ceb0832a16e25e015f0aa79fcbf33dee7bf22547bd3b7276e4c9f3e52d491d20` | `832d39c`     | 2026-07-19 | Yes             |
+| 9     | `I_kwDOSfngyM8AAAABCgcHxw` | <https://github.com/pdomain/pdomain-index-npm/issues/9>  | `14f241d2a847af94e696d44618ecf5c4e2f469ede74ba3a55be2bc5a1477d1a7` | `832d39c`     | 2026-07-19 | Yes             |
+| 10    | `I_kwDOSfngyM8AAAABDJFR7Q` | <https://github.com/pdomain/pdomain-index-npm/issues/10> | `937bcf6e085f71c9d58a2b8cf180c5438efe482898de356deb4cb6ade0a155d3` | `832d39c`     | 2026-07-19 | Yes             |
+| 11    | `I_kwDOSfngyM8AAAABDJFSFA` | <https://github.com/pdomain/pdomain-index-npm/issues/11> | `4eaef78d1234acd66b40aa6fb206f706593d0b797495ce5db4fafc48b95e5c9d` | `832d39c`     | 2026-07-19 | Yes             |
+| 12    | `I_kwDOSfngyM8AAAABDJFSPQ` | <https://github.com/pdomain/pdomain-index-npm/issues/12> | `3121ca1fcb25502655e520e45927afc92ac3c330a720af2bb4a3139a0030ceb8` | `832d39c`     | 2026-07-19 | Yes             |
 
 All twelve issues were deleted on 2026-07-19 with the GraphQL `deleteIssue` mutation. Each node ID was re-resolved from GitHub and compared against the archived export immediately before its deletion; every one matched. The closed issue was deleted first, then the eleven open issues in a batch of ten followed by a batch of one.
 

@@ -56,7 +56,7 @@ CI: .github/workflows/ci.yml (pull_request → master), jobs: static-check, test
 
 ### 1. Seven stray branches on origin, zero open pull requests
 
-```
+```console
 $ gh api repos/pdomain/pdomain-index-npm/branches?per_page=100 --jq '.[].name'
 dep-refresh/2026-06-21-27896278396
 dep-refresh/2026-06-28-28313377293
@@ -69,7 +69,7 @@ gh-pages
 master
 ```
 
-```
+```console
 $ gh pr list --repo pdomain/pdomain-index-npm --state all --limit 20
 19  chore: weekly dep refresh  dep-refresh/2026-08-02-30733852984  MERGED  2026-08-02T05:17:48Z
 18  chore: weekly dep refresh  dep-refresh/2026-07-26-30189267706  MERGED  2026-07-26T05:22:30Z
@@ -104,7 +104,7 @@ successful merge still leaves the branch reachable on `origin`.
 
 ### 3. `delete_branch_on_merge` is off for this repository
 
-```
+```console
 $ gh api repos/pdomain/pdomain-index-npm --jq '.delete_branch_on_merge'
 false
 ```
@@ -114,7 +114,7 @@ merge, which is sufficient by itself to explain all 7 stray branches.
 
 ### 4. This repository does not have the broken-required-context defect seen in peer repos
 
-```
+```console
 $ gh api repos/pdomain/pdomain-index-npm/branches/master/protection --jq '.required_status_checks.contexts'
 ["static-check","test"]
 ```
