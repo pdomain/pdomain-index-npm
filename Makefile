@@ -41,7 +41,13 @@ format-check: ## Check formatting without modifying files
 	npm run format:check
 
 actionlint: ## Lint GitHub Actions workflows
-	npm run actionlint
+	@# The workflows were removed on 2026-09-13; nothing runs on GitHub now.
+	@# Keep the target so it starts working again if a workflow comes back.
+	@if ls .github/workflows/*.yml >/dev/null 2>&1; then \
+		uv run actionlint .github/workflows/*.yml; \
+	else \
+		echo "  [actionlint] no workflows present — skipping."; \
+	fi
 
 shell-check: ## Check smoke shell script syntax
 	npm run shell:check

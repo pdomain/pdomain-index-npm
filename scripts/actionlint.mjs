@@ -6,7 +6,19 @@ const workflowDir = ".github/workflows";
 const args = process.argv.slice(2);
 
 async function defaultWorkflowFiles() {
-  const entries = await readdir(workflowDir);
+  // The workflows were removed on 2026-09-13, so the directory no longer
+  // exists. Treat that as "nothing to lint" rather than an error, and keep the
+  // script working if a workflow is ever added back.
+  let entries;
+  try {
+    entries = await readdir(workflowDir);
+  } catch (err) {
+    if (err.code === "ENOENT") {
+      console.log(`[actionlint] ${workflowDir} not present — nothing to lint.`);
+      return [];
+    }
+    throw err;
+  }
   return entries
     .filter((entry) => entry.endsWith(".yml") || entry.endsWith(".yaml"))
     .map((entry) => join(workflowDir, entry));

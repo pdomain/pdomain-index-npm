@@ -1,7 +1,13 @@
+// Two tests were removed on 2026-09-13 with the workflows they read:
+// one asserted the release workflow regenerated the index after
+// publishing, the other pinned the regen workflow's dispatch event.
+// Both mechanisms are gone; `scripts/publish-index.sh` replaces them.
+// The remaining tests build their own workflow fixtures in temp dirs
+// and still exercise the policy checker.
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
-import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
+import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 
@@ -61,26 +67,6 @@ function updateQuotedWorkflowRefs(workflowPath: string): string {
     { cwd: process.cwd(), encoding: "utf8" },
   );
 }
-
-test("release workflow calls index regeneration after publishing the GitHub Release", async () => {
-  const workflow = await readFile(".github/workflows/release.yml", "utf8");
-  const releaseCreate = workflow.indexOf("gh release create");
-  const refreshIndex = workflow.indexOf("refresh-index:");
-
-  assert.notEqual(releaseCreate, -1);
-  assert.ok(refreshIndex > releaseCreate);
-  assert.match(workflow, /uses: \.\/\.github\/workflows\/regen\.yml/);
-  assert.match(workflow, /pages: write/);
-  assert.match(workflow, /id-token: write/);
-});
-
-test("regen workflow keeps external publisher dispatch event", async () => {
-  const workflow = await readFile(".github/workflows/regen.yml", "utf8");
-
-  assert.match(workflow, /^name: regen-and-deploy$/m);
-  assert.match(workflow, /workflow_call:/);
-  assert.match(workflow, /types: \[pdomain-npm-publish\]/);
-});
 
 test("workflow policy detects unmanaged actions", async () => {
   const dir = await mkdtemp(join(tmpdir(), "workflow-policy-"));
