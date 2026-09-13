@@ -22,13 +22,13 @@ we serve.
 ## Shipped architecture
 
 `scripts/regen-index.ts` rebuilds all packuments from allowlisted GitHub Release
-assets. `.github/workflows/regen.yml` exposes that regeneration as a reusable
-workflow and deploys `_site/` through the GitHub Pages artifact flow. Publisher
-dispatches and this repository's release workflow call the same full rebuild.
+assets. `scripts/publish-index.sh` wraps it: it regenerates the registry and
+pushes the result to the `gh-pages` branch, which GitHub Pages serves directly.
+It is run by hand, and it always performs a full allowlisted scan.
 
 The shipped path differs from the original migration design in several useful
-ways. It uses `REGEN_ROOT`, the `pdomain-npm-publish` event, and a reusable
-`regen.yml` workflow. It ignores dispatch payload content because every trigger
+ways. It uses `REGEN_ROOT`, and until 2026-09-13 a `pdomain-npm-publish` event and a
+reusable `regen.yml` workflow, both since removed. It ignores dispatch payload content because every trigger
 runs a full allowlisted scan. It also removed the legacy publish, rebuild, and
 sync scripts after the replacement shipped.
 

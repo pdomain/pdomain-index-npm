@@ -55,21 +55,19 @@ GitHub Pages hosts packuments only. New package tarballs are fetched directly
 from the publisher repository's GitHub Release assets. Historical Pages-hosted
 tarball URLs are not a compatibility promise.
 
-Publisher repos can trigger a `repository_dispatch` of type `pdomain-npm-publish`
-after creating a release asset to signal immediate regeneration:
+Run `./scripts/publish-index.sh` after a publisher cuts a release. It scans
+the allowlisted GitHub Releases for `.tgz` assets, regenerates every packument,
+and pushes the result to the `gh-pages` branch, which Pages serves directly.
+`DRY_RUN=1` builds the registry and shows the diff without pushing.
 
-```sh
-gh api repos/pdomain/pdomain-index-npm/dispatches \
-  -f event_type=pdomain-npm-publish
-```
+There is no dispatch and no daily sync. The workflows were removed on
+2026-09-13, so nothing regenerates the registry on its own and there is no
+fallback if the command is skipped.
 
-The dispatch path is the fast path. A daily GitHub Actions sync also scans
-publisher GitHub Releases for `.tgz` assets and regenerates the registry
-idempotently, so the registry catches up if a publisher dispatch is missed.
-
-Releases of this registry tooling call the same `regen-and-deploy` workflow
-after the GitHub Release is created, so Pages is rebuilt with the released
-generator and the release workflow fails if the deploy fails.
+That gap is not hypothetical. The registry sat on `@pdomain/pdomain-ui` 0.9.0
+from mid-June until 2026-09-13 while 0.10.1 and 0.11.0 were released and
+unindexed, and every consuming app pins `^0.11.0`. Installs kept working only
+because existing lockfiles already resolved it.
 
 ## Tooling Releases
 
