@@ -2,7 +2,7 @@
 Status: active
 Owner: repository maintainers
 Created: 2026-07-14
-Last verified: 2026-07-19
+Last verified: 2026-11-06
 Kind: context
 ---
 
@@ -17,35 +17,22 @@ Kind: context
 
 ## What matters now
 
-The repository builds a read-only static npm registry. GitHub Pages serves
-packuments, while allowlisted publisher GitHub Releases serve package bytes.
-[`docs/architecture/registry-format.md`](../architecture/registry-format.md) is the current architecture.
+The repository builds a read-only static npm registry. [Registry Format](../architecture/registry-format.md) is the shipped behavior. [Remaining work](../roadmap.md) is the open list.
 
-**This repository has no GitHub issues.** All twelve were migrated into governed
-documentation and then permanently deleted on 2026-07-19. Issue tracking lives
-in `docs/issues/`, and the
-[GitHub issues migration ledger](github-issues-migration-ledger.md) holds the
-inventory, content digests, outcomes, and deletion journal. The full original
-records are archived in Git history at `c64df8e`; retrieve one with
-`git show c64df8e:docs/issues/<filename>`. Raw API exports remain under
-`migration/github-issues/raw/`.
+GitHub Pages serves packuments. Allowlisted publisher GitHub Releases serve package bytes. `scripts/publish-index.sh` rebuilds the registry and pushes the `gh-pages` branch. Nothing in this repo runs that command on a schedule.
 
-GitHub Issues is still enabled, so anyone can file a new one. A newly filed
-issue is folded into the ledger with an inventory row, a raw export and digest,
-and a reconciliation row, then tracked as a governed record under
-the [repository issue process](../issues/README.md).
+`make ci` is the local gate. It runs TypeScript checking, ESLint, Prettier, actionlint, shell syntax checks, and the Node test suite.
 
-`make ci` is the required local gate. It runs TypeScript type checking, ESLint,
-Prettier, actionlint, shell syntax checks, and the Node test suite.
+## In flight
 
-## In-flight work
-
-The [automated live smoke decision](../issues/2026-05-17-gh-007-automated-live-smoke.md)
-remains open. The smoke is available manually, but the current deployment does
-not run it.
+The open items are on [Remaining work](../roadmap.md). `tests/smoke/run.sh` exists. `scripts/publish-index.sh` does not run it.
 
 ## Risks and tests
 
-No red or flaky test is documented. External GitHub Release assets and GitHub
-Pages availability remain operational dependencies. `tests/smoke/run.sh`
-validates the deployed package path after deployment.
+No red or flaky test is documented. GitHub Release assets and GitHub Pages stay outside this repo. `tests/smoke/run.sh` checks one deployed package when someone runs `make smoke`.
+
+## Issue records
+
+All twelve GitHub issues were migrated into governed documentation and permanently deleted on 2026-07-19. New reports belong in `docs/issues/`. The [migration ledger](github-issues-migration-ledger.md) holds the inventory, content digests, outcomes, and deletion journal. Full original records are in git at `c64df8e`. Retrieve one with `git show c64df8e:docs/issues/<filename>`. Raw API exports remain under `migration/github-issues/raw/`.
+
+GitHub Issues is still enabled, so anyone can file a new one. A newly filed issue is folded into the ledger with an inventory row, a raw export and digest, and a reconciliation row, then tracked under the [issue index](../issues/README.md).

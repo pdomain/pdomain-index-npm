@@ -2,7 +2,7 @@
 Status: active
 Owner: repository maintainers
 Created: 2026-07-14
-Last verified: 2026-07-19
+Last verified: 2026-11-06
 Kind: context
 ---
 
@@ -135,3 +135,20 @@ Kind: context
   recorded in the ledger. See the ledger's "Digest integrity" section.
 - **Remaining work:** None once the deletion journal records verified absence
   for all twelve.
+
+### 2026-09-13 — Regeneration is a local script
+
+- **Context:** Commit `290f458` removed every GitHub workflow, including
+  `regen.yml`, `dep-refresh.yml`, `ci.yml`, and `release.yml`.
+- **Decision:** `scripts/publish-index.sh` is the regeneration path. A person
+  runs it. It rebuilds the registry from allowlisted release assets and pushes
+  the `gh-pages` branch. This replaces the workflow trigger in the 2026-07-14
+  decision "Keep full regeneration as the trusted deployment path". The full
+  allowlisted scan itself stays.
+- **Rationale:** GitHub Actions no longer runs in this repo. Pages serves the
+  `gh-pages` branch, which a local script can update. A workflow artifact
+  upload cannot.
+- **Evidence:** `scripts/publish-index.sh`, `scripts/regen-index.ts`, commit
+  `290f458`, and [Registry Format](../architecture/registry-format.md).
+- **Remaining work:** The live smoke still does not run after publish. See
+  [Remaining work](../roadmap.md).

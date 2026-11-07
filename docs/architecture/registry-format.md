@@ -2,7 +2,7 @@
 Status: built
 Owner: repository maintainers
 Created: 2026-05-17
-Last verified: 2026-07-19
+Last verified: 2026-11-06
 Kind: architecture
 ---
 
@@ -34,14 +34,19 @@ sync scripts after the replacement shipped.
 
 ## Evidence
 
-- **Code:** `scripts/regen-index.ts` and `.github/workflows/regen.yml`.
-- **Tests:** `tests/test_regen_index.test.ts`, `tests/test_workflows.test.ts`,
-  and `tests/smoke/run.sh`.
-- **Artifacts:** `_site/` is generated and uploaded as the Pages artifact.
-- **Verified:** `make ci` and source review on 2026-07-19. The trust model,
-  dist-tags precedence, and smoke-boundary sections were each re-checked against
-  `scripts/regen-index.ts`, `package.json`, and the named tests during the
-  GitHub issues cutover.
+- **Code:** `scripts/regen-index.ts` and `scripts/publish-index.sh`.
+- **Tests:** `tests/test_regen_index.test.ts` and `tests/smoke/run.sh`.
+- **Artifacts:** `scripts/publish-index.sh` builds a temporary site and pushes
+  it to the `gh-pages` branch. `scripts/regen-index.ts` writes `_site` when no
+  output root is set.
+- **Verified:** `make ci` and source review on 2026-07-19. On 2026-11-06 the
+  trust model, dist-tags precedence, and smoke-boundary sections were
+  re-checked against `scripts/regen-index.ts`, `scripts/publish-index.sh`,
+  `package.json`, and `tests/test_regen_index.test.ts`. `make ci` was not
+  re-run on that date. The 2026-07-19 check also named
+  `.github/workflows/regen.yml` and `tests/test_workflows.test.ts`. Commit
+  `290f458` removed the workflows, and `tests/test_workflows.test.ts` is not
+  in the tree.
 
 ## Live smoke test boundary
 
@@ -51,9 +56,9 @@ and release-asset tarball, creates a fresh directory with only the registry
 override, runs `npm install`, and checks the installed package name and version.
 
 The smoke test is a manual external check. `make ci` checks its shell syntax but
-does not run it, and `.github/workflows/regen.yml` does not gate deployment on
-it. A successful smoke run proves the selected package version and deployment
-at that time; it does not prove every later deployment.
+does not run it. `scripts/publish-index.sh` does not run it either. A successful
+smoke run proves the selected package version and deployment at that time. It
+does not prove every later publish.
 
 ## Directory layout
 
@@ -145,8 +150,8 @@ reading the packument cannot resolve the transitive dependency tree.
 
 - **No `_attachments`**: Tarballs are referenced by URL, not embedded as base64
   in the packument.
-- **No `_rev`**: The deploy workflow regenerates packuments from allowlisted
-  GitHub Release assets.
+- **No `_rev`**: `scripts/regen-index.ts` regenerates packuments from
+  allowlisted GitHub Release assets.
 - **No PUT semantics**: The registry is read-only from the consumer's perspective.
 - **No `npm login`**: The registry is unauthenticated. All packages are public.
 

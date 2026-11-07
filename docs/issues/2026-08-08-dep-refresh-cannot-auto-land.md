@@ -2,7 +2,7 @@
 Status: active
 Owner: repository maintainers
 Created: 2026-08-08
-Last verified: 2026-08-08
+Last verified: 2026-11-06
 Kind: issue
 Level: I1
 ---
@@ -14,7 +14,7 @@ Level: I1
 - **Kind:** issue
 - **Status:** active
 - **Level:** I1
-- **Last verified:** 2026-08-08
+- **Last verified:** 2026-11-06
 - **Resolution:** Open
 - **Severity:** Low — cosmetic branch accumulation; dependency updates are landing.
 - **Affected version:** `master` at 2026-08-08; `.github/workflows/dep-refresh.yml`, PRs #13-#19.
@@ -27,12 +27,14 @@ Level: I1
 
 ## Summary
 
-The weekly `dep-refresh` workflow opens a dated branch per run
-(`dep-refresh/<date>-<run-id>`) and the repository has
-`delete_branch_on_merge: false`, so every merged refresh leaves its branch behind
-on `origin`. Seven stray `dep-refresh/*` branches exist as of 2026-08-08 even
-though all seven of their pull requests merged successfully. The refresh
-mechanism itself works; only branch cleanup is missing.
+The weekly `dep-refresh` workflow opened a dated branch per run
+(`dep-refresh/<date>-<run-id>`) and the repository had
+`delete_branch_on_merge: false`, so every merged refresh left its branch behind
+on `origin`. Seven stray `dep-refresh/*` branches existed as of 2026-08-08 even
+though all seven of their pull requests had merged. The refresh
+mechanism itself was working then. Only branch cleanup was missing.
+
+Checked on 2026-11-06 with `gh api repos/pdomain/pdomain-index-npm` and `gh api repos/pdomain/pdomain-index-npm/branches?per_page=100`. Commit `290f458` deleted `.github/workflows/dep-refresh.yml`, so that weekly job no longer opens branches. The branch list still had 13 `dep-refresh/*` names, from `dep-refresh/2026-06-21-27896278396` through `dep-refresh/2026-09-13-34744062988`, plus `gh-pages` and `master`. `delete_branch_on_merge` was still false.
 
 ## Impact
 
@@ -171,6 +173,11 @@ satisfiable, and all 7 recent dep-refresh PRs did in fact merge.
    and unreachable from any open PR) and verify the next scheduled run reuses a
    single `dep-refresh` branch with delete-on-merge cleaning it up.
 
+Checked on 2026-11-06: `.github/workflows/dep-refresh.yml` is gone, so that
+weekly job no longer runs. The GitHub branch list still had 13
+`dep-refresh/*` branches, and `delete_branch_on_merge` was false. Steps 1
+and 3 are not done.
+
 ## What is NOT broken
 
 - Dependency updates are landing here: all 7 recent `dep-refresh` pull requests
@@ -186,6 +193,7 @@ satisfiable, and all 7 recent dep-refresh PRs did in fact merge.
 
 ## Resolution
 
-_Open._ When fixed: set frontmatter + Agent Index `Status: retired`, add the
-resolving commit/spec link here, move the `docs/issues/README.md` pointer to
-"Resolved", and route the retirement through `doc-retirer`.
+_Open._ When fixed, route the retirement through `doc-retirer`. That
+deletes this file, drops its pointer from the open list in
+`docs/issues/README.md`, and appends a tombstone to
+`docs/context/decisions.md`. Do not leave a resolved copy in the tree.

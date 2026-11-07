@@ -2,7 +2,7 @@
 Status: active
 Owner: repository maintainers
 Created: 2026-07-15
-Last verified: 2026-07-19
+Last verified: 2026-11-06
 Kind: context
 ---
 
@@ -52,7 +52,7 @@ The original plan and spec pointers under `docs/superpowers/` do not exist in th
 
 - **#1-#2:** The static registry and repository scaffold shipped. Later rename commits `f439db8` and `e45e654` changed the original `@concavetrillion/*` and `ConcaveTrillion/pd-index-npm` names to `@pdomain/*` and `pdomain/pdomain-index-npm`.
 - **#3-#6:** The original mutable `gh-pages`, `rebuild-packuments.ts`, `publish.ts`, and `publish.yml` path shipped first, then the current release-asset architecture superseded it. The current workflow deploys an ephemeral `_site/` artifact. Every trigger performs a full allowlisted rebuild, and dispatch payload content is not trusted.
-- **#7:** The clean-directory smoke test shipped in `f5c388c`. Author `ConcaveTrillion` [reported](https://github.com/pdomain/pdomain-index-npm/issues/7#issuecomment-4472050503) on 2026-05-17T18:16:12Z that workflow run `25998785023` passed for `@concavetrillion/pd-ui@0.1.0-alpha`. This is a historical author report, not a fresh verification. The current smoke targets `@pdomain/pdomain-ui` and is not run by `make ci` or `.github/workflows/regen.yml`. The [local issue](../issues/2026-05-17-gh-007-automated-live-smoke.md) keeps the missing automation decision active.
+- **#7:** The clean-directory smoke test shipped in `f5c388c`. Author `ConcaveTrillion` [reported](https://github.com/pdomain/pdomain-index-npm/issues/7#issuecomment-4472050503) on 2026-05-17T18:16:12Z that workflow run `25998785023` passed for `@concavetrillion/pd-ui@0.1.0-alpha`. This is a historical author report, not a fresh verification. The current smoke targets `@pdomain/pdomain-ui` and is not run by `make ci` or `scripts/publish-index.sh`. Commit `290f458` removed `.github/workflows/regen.yml`. The [local issue](../issues/2026-05-17-gh-007-automated-live-smoke.md) keeps the missing automation decision active.
 - **#8-#9:** Consumer instructions, the `.npmrc` example, ignored workspace-local agent memory, and repository agent guidance all shipped. Current `AGENTS.md` and `DOCGRAPH.md` supersede the original CLAUDE-only process.
 - **#11:** The finding was real against the legacy `scripts/rebuild-packuments.ts`, which compared prerelease strings lexicographically and could leave the `alpha` dist-tag on an older build after publishing `alpha.10`. The replacement `scripts/regen-index.ts` implements semver prerelease precedence in `prereleaseCompare`: numeric identifiers compare as numbers and sort before non-numeric identifiers. The regression test `regenIndex sorts numeric prerelease identifiers by semver precedence` publishes `1.0.0-alpha.2` and `1.0.0-alpha.10` and asserts `latest` resolves to `alpha.10`. Fixed in `123c36b`; the legacy script was removed in `15f75de`.
 - **#12:** The finding was real: `package.json` defined `smoke` as `node dist/smoke.js`, and no `scripts/smoke.ts` existed to produce that file, so the advertised command failed for reasons unrelated to registry behavior. The script now runs `bash tests/smoke/run.sh`, which is the first of the two fixes the issue proposed. Fixed in `2c49a7c`. The separate question of whether smoke runs automatically remains open and is tracked in the [automated live smoke issue](../issues/2026-05-17-gh-007-automated-live-smoke.md).
@@ -87,7 +87,7 @@ Counts reconcile at twelve: twelve GitHub issues, twelve raw exports, twelve inv
 
 ### Archived issue records
 
-Eleven of the twelve issues received a full governed record — GitHub provenance, original body and comments verbatim, evidence, root-cause analysis, and resolution. Those records were committed in `c64df8e` and removed from the working tree in the commit that follows it. Git history is the archive; retrieve a record with `git show c64df8e:docs/issues/<filename>`, or list them all with `git show c64df8e --stat`. The [issues README](../issues/README.md) carries the filename table.
+Eleven of the twelve issues received a full governed record — GitHub provenance, original body and comments verbatim, evidence, root-cause analysis, and resolution. Those records were committed in `c64df8e` and removed from the working tree in the commit that follows it. Git history is the archive; retrieve a record with `git show c64df8e:docs/issues/<filename>`, or list them all with `git show c64df8e --stat`. List the archived filenames with `git show c64df8e --stat`. The [issues README](../issues/README.md) no longer copies that table.
 
 Issue #7 is the exception. Its record stays live at [`docs/issues/2026-05-17-gh-007-automated-live-smoke.md`](../issues/2026-05-17-gh-007-automated-live-smoke.md) because it tracks an unresolved decision: whether deployment must run the live smoke automatically.
 

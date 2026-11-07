@@ -2,7 +2,7 @@
 Status: active
 Owner: repository maintainers
 Created: 2026-05-17
-Last verified: 2026-07-19
+Last verified: 2026-11-06
 Kind: issue
 Level: I1
 ---
@@ -14,7 +14,7 @@ Level: I1
 - **Kind:** issue
 - **Status:** active
 - **Level:** I1
-- **Last verified:** 2026-07-19
+- **Last verified:** 2026-11-06
 - **Resolution:** Open
 - **Severity:** Medium - deployment regressions lack an automated live check
 - **Affected version:** `master` at the GitHub Issues cutover
@@ -24,7 +24,9 @@ Level: I1
 
 ## Summary
 
-The live smoke test exists, but the current deployment workflow does not run it. The historical `publish.yml` workflow ran the smoke after publishing. The replacement `regen.yml` workflow deploys without that external verification.
+The live smoke test exists. Nothing in the current publish path runs it. The historical `publish.yml` workflow ran the smoke after publishing. The later `regen.yml` workflow deployed without that check, and commit `290f458` then removed `.github/workflows/`.
+
+Checked on 2026-11-06. [The plan](../plans/2026-07-21-automated-live-smoke.md) is still unfinished. `scripts/publish-index.sh` publishes to `gh-pages` and does not run `make smoke`.
 
 The original GitHub issue was closed after one successful historical run. This local record keeps the unresolved automation decision active without reopening the already implemented smoke script.
 
@@ -57,7 +59,7 @@ The original GitHub issue was closed after one successful historical run. This l
 ```text
 Repository: pdomain/pdomain-index-npm
 Historical workflow: .github/workflows/publish.yml at f5c388c
-Current workflow: .github/workflows/regen.yml on master
+Publish path on 2026-11-06: scripts/publish-index.sh
 Smoke script: tests/smoke/run.sh
 ```
 
@@ -65,14 +67,14 @@ Smoke script: tests/smoke/run.sh
 
 1. Commit `f5c388c` added the clean-directory smoke script. The historical `publish.yml` ran it after publishing.
 2. Author `ConcaveTrillion` reported on 2026-05-17T18:16:12Z that workflow run `25998785023` passed for `@concavetrillion/pd-ui@0.1.0-alpha`.
-3. The current `.github/workflows/regen.yml` has no smoke job.
+3. Commit `290f458` deleted `.github/workflows/`, including `regen.yml`. `scripts/publish-index.sh` does not run `make smoke`.
 4. `package.json` maps `npm run smoke` to `bash tests/smoke/run.sh`, and `Makefile` exposes `make smoke`.
 
 The historical success is an attributed report from the migrated comment. It proves one historical package and run, not current deployment health.
 
 ## Root-cause hypotheses
 
-1. **The release-asset migration dropped the post-publish smoke with the legacy workflow.** Commit `02123ba` replaced `publish.yml` with Pages artifact deployment, and the current workflow has no equivalent job.
+1. **The release-asset migration dropped the post-publish smoke with the legacy workflow.** Commit `02123ba` replaced `publish.yml` with Pages artifact deployment. Commit `290f458` later removed `.github/workflows/`. `scripts/publish-index.sh` also has no smoke step.
 2. **Manual smoke execution may have been considered sufficient.** No durable decision records that acceptance, so this remains unproven.
 
 ## Defects to fix

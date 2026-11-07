@@ -2,7 +2,7 @@
 Status: active
 Owner: repository maintainers
 Created: 2026-07-15
-Last verified: 2026-07-19
+Last verified: 2026-11-06
 Kind: process
 Level: I1
 ---
@@ -14,98 +14,92 @@ Level: I1
 - **Kind:** process
 - **Status:** active
 - **Level:** I1
-- **Last verified:** 2026-07-19
-- **Read when:** filing a bug / defect / investigation report, or looking up an
-  open issue's status, evidence, or resolution.
-- **Search terms:** issues folder, bug report, defect report, issue template,
+- **Last verified:** 2026-11-06
+- **Read when:** filing a bug report, or checking which issues are still open.
+- **Search terms:** issues folder, bug report, remaining work, issue template,
   issue lifecycle, kind issue.
-
-## Purpose
-
-`docs/issues/` holds **governed, evidence-bearing issue reports** — bugs, silent
-failures, regressions, and investigations that need a durable, citable record
-(not a throwaway chat summary). Each report is a docgraph node so it is
-retrievable, linkable from specs/plans/context, and carried in the repo rather
-than in per-machine harness memory.
-
-## Convention
-
-- **Location:** `docs/issues/`
-- **Filename:** `YYYY-MM-DD-short-slug.md` (creation date + a terse kebab slug).
-- **Metadata:** YAML frontmatter **and** a matching `## Agent Index` block. Keep
-  frontmatter `Status:` and Agent Index `Status:` identical — a mismatch trips a
-  `field_conflict` (→ `status-reconciler`).
-  - `Kind: issue`
-  - `Level:` informational scope — `I1` repo-wide, `I2` narrow/local.
-  - `Status:` governed lifecycle, **not** the issue's open/closed state (see below).
-- **Issue state vs governed status:** the docgraph lifecycle is
-  `draft → active → implemented → retired`. Express the _issue's_ resolution state
-  as a separate **`Resolution:`** line in the Agent Index (`Open` / `Resolved` /
-  `Won't fix` / `Duplicate`) and a final `## Resolution` section. Map the governed
-  `Status:`:
-  - **Open** → `Status: active`.
-  - **Resolved / Won't fix / Duplicate** → route through `doc-retirer`, which
-    **deletes** the report. Promote any specific a reader still needs into the
-    architecture or process doc that owns it, repoint inbound references at the
-    resolving commit, drop the pointer below, and append a tombstone to
-    `docs/context/decisions.md`. Git history keeps the report, so no resolved
-    file stays in the tree and there is no resolved index to maintain.
-- **Link it (no orphans):** reference every new issue from a governed doc — by
-  default an **Open issues** bullet in `docs/context/intent-map.md`, or a Risk in
-  `docs/context/current-state.md`. This `README` also links the live issues below,
-  which satisfies the no-orphan rule.
-- **Stage + reindex:** under `mode = "git"` a new doc is invisible until
-  `git add`ed; stage it, then `docgraph reindex` and `docgraph check --strict` the
-  same turn (a new `dangling` blocks completion).
-- **Template:** copy `TEMPLATE.md` in this folder. It is index-excluded (a
-  top-of-file `<!-- docgraph: ignore -->` marker), so **do not markdown-link to
-  it** from a governed doc — the link would dangle. Refer to it by path / inline
-  code.
-
-## Recommended structure
-
-Summary · Impact · Environment/versions · Evidence (reproduction & diagnosis,
-with commands/output) · Root-cause hypotheses (ranked) · Defects to fix ·
-Recommended next steps · What is NOT broken (scopes the fix) · Resolution.
-
-Lead with the **smallest decisive evidence**, separate **observation** from
-**hypothesis**, and always include a **What is NOT broken** section.
 
 ## Open issues
 
-- [Decide whether deployments need an automated live smoke](2026-05-17-gh-007-automated-live-smoke.md)
-- [dep-refresh branches accumulate on origin instead of being deleted after merge](2026-08-08-dep-refresh-cannot-auto-land.md)
+- Publish does not run the clean-directory install check.
 
-## Where resolved work is recorded
+  See the [Automated live smoke plan](../plans/2026-07-21-automated-live-smoke.md) and [Decide whether deployments need an automated live smoke](2026-05-17-gh-007-automated-live-smoke.md).
 
-Eleven migrated GitHub issues resolved before the tracker cutover. Their full
-records — GitHub provenance, original bodies and comments verbatim, evidence,
-and root-cause analysis — were committed and then removed from the working
-tree. **Git history is the archive.**
+- Thirteen `dep-refresh/*` branches were still on origin on 2026-11-06. `delete_branch_on_merge` is still false.
 
-Retrieve any of them with:
+  See [dep-refresh branches accumulate on origin instead of being deleted after merge](2026-08-08-dep-refresh-cannot-auto-land.md).
 
-```bash
-git show c64df8e --stat                    # list all 11 records
-git show c64df8e:docs/issues/<filename>    # read one record
-```
+The same open items are listed in [Remaining work](../roadmap.md).
 
-| Issue | Record filename                                           |
-| ----- | --------------------------------------------------------- |
-| #1    | `2026-05-17-gh-001-spec-static-npm-registry.md`           |
-| #2    | `2026-05-17-gh-002-create-repo-scaffold.md`               |
-| #3    | `2026-05-17-gh-003-wire-github-pages.md`                  |
-| #4    | `2026-05-17-gh-004-registry-layout-and-rebuild-script.md` |
-| #5    | `2026-05-17-gh-005-publish-script.md`                     |
-| #6    | `2026-05-17-gh-006-publish-workflow.md`                   |
-| #8    | `2026-05-17-gh-008-consumer-docs-and-npmrc.md`            |
-| #9    | `2026-05-17-gh-009-workspace-integration.md`              |
-| #10   | `2026-05-22-gh-010-validate-tarball-package-names.md`     |
-| #11   | `2026-05-22-gh-011-prerelease-semver-ordering.md`         |
-| #12   | `2026-05-22-gh-012-broken-smoke-script.md`                |
+Shipped registry behavior is [Registry Format](../architecture/registry-format.md).
 
-Durable behavior from these issues lives in
-[Registry Format](../architecture/registry-format.md). Provenance, digests, and
-outcomes live in the
-[migration ledger](../context/github-issues-migration-ledger.md). The raw API
-exports remain in the working tree under `migration/github-issues/raw/`.
+Eleven migrated GitHub issue records were removed from the tree after commit `c64df8e`.
+
+List those filenames with `git show c64df8e --stat`.
+
+Provenance is in the [migration ledger](../context/github-issues-migration-ledger.md).
+
+## What this folder holds
+
+`docs/issues/` holds governed issue reports: bugs, silent failures, regressions, and investigations that need a durable record.
+
+Each report is a docgraph node.
+
+## Rules for each issue file
+
+- **Location:** `docs/issues/`
+- **Filename:** `YYYY-MM-DD-short-slug.md`. Use the creation date plus a short kebab slug.
+- **Metadata:** YAML frontmatter and a matching `## Agent Index` block.
+
+  Keep frontmatter `Status:` and Agent Index `Status:` identical. A mismatch trips a `field_conflict`.
+
+  - `Kind: issue`
+  - `Level:` `I1` for repo-wide scope, `I2` for a narrow scope.
+  - `Status:` is the governed lifecycle, not the issue's open or closed state.
+- **Issue state versus governed status:** The docgraph lifecycle is `draft → active → implemented → retired`.
+
+  Put the issue's own state on a **`Resolution:`** line in the Agent Index and in a final `## Resolution` section. The values are `Open`, `Resolved`, `Won't fix`, or `Duplicate`.
+
+  - **Open** maps to `Status: active`.
+  - **Resolved, Won't fix, or Duplicate** goes through `doc-retirer`, which deletes the report.
+
+    1. Promote any fact a reader still needs into the architecture or process doc that owns it.
+    2. Repoint inbound references.
+    3. Drop the pointer in the open list above.
+    4. Append a tombstone to `docs/context/decisions.md`.
+
+    Git history keeps the report.
+
+    Do not leave a resolved file in the tree.
+
+- **Link it:** Reference every new issue from [Remaining work](../roadmap.md) and from `docs/context/intent-map.md` or `docs/context/current-state.md`.
+
+  This file's open list also links the live issues.
+
+- **Stage and reindex:** Under `mode = "git"` a new doc is invisible until `git add`.
+
+  Stage it, then run `docgraph reindex` and `docgraph check --strict` in the same turn.
+
+- **Template:** Copy `TEMPLATE.md` in this folder.
+
+  A top-of-file `<!-- docgraph: ignore -->` marker excludes it from the index.
+
+  Do not markdown-link to it from a governed doc. Refer to it by path in inline code.
+
+## What to put in a report
+
+- Summary
+- Impact
+- Environment/versions
+- Evidence
+- Root-cause hypotheses
+- Defects to fix
+- Recommended next steps
+- What is NOT broken
+- Resolution
+
+Lead with the smallest decisive evidence.
+
+Separate observation from hypothesis.
+
+Always include What is NOT broken.
