@@ -1,7 +1,7 @@
 # pdomain-index-npm — static npm registry tooling
 # Usage: make <target>
 
-.PHONY: help setup install-hooks install typecheck lint lint-check format-check actionlint shell-check static-check pre-commit-check test build ci ci-slow release-patch release-minor release-major _do-release regen-index smoke upgrade-deps
+.PHONY: help setup install-hooks install typecheck lint lint-check format-check actionlint shell-check static-check pre-commit-check test build ci ci-slow release-patch release-minor release-major _do-release regen-index smoke upgrade-deps update-hooks
 
 REGEN_ROOT ?= _site
 
@@ -93,3 +93,6 @@ smoke: ## Run smoke helper
 
 upgrade-deps: ## Upgrade npm dependencies
 	npm update
+
+update-hooks: ## Bump hooks to their latest releases, frozen to commit SHAs
+	uv run pre-commit autoupdate --freeze
