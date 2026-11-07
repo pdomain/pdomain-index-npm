@@ -56,6 +56,7 @@ Each report is a docgraph node.
   - `Kind: issue`
   - `Level:` `I1` for repo-wide scope, `I2` for a narrow scope.
   - `Status:` is the governed lifecycle, not the issue's open or closed state.
+
 - **Issue state versus governed status:** The docgraph lifecycle is `draft → active → implemented → retired`.
 
   Put the issue's own state on a **`Resolution:`** line in the Agent Index and in a final `## Resolution` section. The values are `Open`, `Resolved`, `Won't fix`, or `Duplicate`.

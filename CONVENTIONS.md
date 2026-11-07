@@ -2,7 +2,7 @@
 Status: active
 Owner: repository maintainers
 Created: 2026-05-21
-Last verified: 2026-07-14
+Last verified: 2026-11-07
 Kind: convention
 ---
 
@@ -88,8 +88,9 @@ all encodings. `# noqa: RUF00x` masks the problem instead of fixing it.
 
 ## Rule: Use `uv run` for all Python and tool invocation
 
-**The rule.** Invoke Python, pytest, ruff, mypy/pyright, and any project-local
-CLI through `uv run`. Never call bare `python`, `python3`, `pytest`, or
+**The rule.** Invoke Python tooling through `uv run`, including pytest, ruff,
+mypy/pyright, and pre-commit. Use the npm scripts in `package.json`, exposed
+by `Makefile`, for the JavaScript gate. Never call bare `python`, `python3`, `pytest`, or
 `pre-commit` from a Makefile target, CI step, or hook.
 
 **Why.** Direct invocation skips the project's `.venv` and the lockfile-pinned

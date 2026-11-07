@@ -2,7 +2,7 @@
 Status: active
 Owner: repository maintainers
 Created: 2026-05-21
-Last verified: 2026-07-14
+Last verified: 2026-11-07
 Kind: process
 ---
 
@@ -38,9 +38,9 @@ change any step below.
 - **Delegate by default.** Dispatch subagents for non-trivial work: per-repo
   agents for repo changes, `Explore` for code searches. This keeps large tool
   output out of the parent context.
-- **Parallelize.** Run independent tasks as concurrent subagents — multiple
-  agent calls in a single message. Set `model: sonnet` on implementers and
-  reviewers.
+- **Parallelize.** Run independent tasks as concurrent subagents when the
+  session permits delegation. Use the agent tools and models available in
+  the current host.
 
 ### Steps
 
@@ -52,19 +52,22 @@ change any step below.
    `plans/` (the work plan), `specs/` (design specs — follow any `Spec:`
    pointer from the issue), `research/` (prior investigations), `decisions/`
    (ADRs / constraints), `architecture/` (shipped design).
-4. **Check live issue status.** `gh issue view <N> --repo <owner/repo>` —
-   confirm it isn't already closed; note its milestone.
+4. **Check issue status.** Read `docs/issues/README.md` and the matching
+   local issue. The migrated GitHub issues were permanently deleted;
+   `docs/context/github-issues-migration-ledger.md` records their outcomes.
+   Use `gh issue view` only for a newly filed GitHub issue.
 5. **Check for in-flight work.** Open PRs and existing branches touching the
    same area, to avoid colliding with work-in-progress.
 6. **Consult agent memory.** `.claude/agent-memory/<repo>/feedback_*.md` for
    corrections not yet promoted to `CONVENTIONS.md`.
-7. **Locate code with `Explore` first.** Use an `Explore` subagent to find
-   relevant files before broad `Read`/grep.
+7. **Locate code with an explorer first.** When delegation is available and
+   permitted, use an exploration agent to find relevant code. Otherwise use
+   targeted `rg` searches.
 8. **Isolate in a worktree.** Never work directly in the interactive checkout
-   at `/workspaces/ocr-container/<repo>/`. Use the `using-git-worktrees` skill
-   to set up an isolated worktree. When delegating to a full-power
-   implementation agent, pass `isolation: "worktree"` on the `Agent` call
-   (skip for `-docs` agents and the `driver` agent). When an agent returns a
+   during coding. Use the `using-git-worktrees` skill to set up an isolated
+   worktree. When delegating implementation, use the host's worktree
+   isolation support or create a worktree first. Documentation-only work
+   may use the current checkout. When an agent returns a
    worktree path + branch, use the `finishing-a-development-branch` skill to
    decide how to integrate.
 9. **TDD.** Write the failing test first where the plan calls for it.

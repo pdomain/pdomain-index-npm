@@ -2,7 +2,7 @@
 Status: active
 Owner: repository maintainers
 Created: 2026-05-30
-Last verified: 2026-07-14
+Last verified: 2026-11-07
 Kind: convention
 ---
 
@@ -27,6 +27,6 @@ configuration.
 
 ## Ruff
 
-| Rule   | Location                           | Justification                                                                                           |
-| ------ | ---------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| `S603` | `scripts/update_github_actions.py` | The executable is resolved from `PATH`, arguments use a list, and `shell=False` prevents shell parsing. |
+`pyproject.toml` ignores `E501` for line length and `COM812` to avoid a
+conflict with the formatter. The former `S603` entry no longer applies:
+commit `6071e3a` deleted `scripts/update_github_actions.py`.

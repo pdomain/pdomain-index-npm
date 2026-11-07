@@ -2,7 +2,7 @@
 Status: active
 Owner: repository maintainers
 Created: 2026-05-17
-Last verified: 2026-07-14
+Last verified: 2026-11-07
 Kind: usage
 ---
 
@@ -47,7 +47,7 @@ resolve from npmjs.org. The registry is **read-only and unauthenticated**
 ## How publishers push to it
 
 Publisher repos create `.tgz` files as GitHub Release assets. The
-`pdomain-index-npm` deploy workflow scans allowlisted publisher releases,
+`scripts/publish-index.sh` command scans allowlisted publisher releases,
 validates each package tarball, computes integrity metadata, and regenerates
 the static packuments served by GitHub Pages.
 
