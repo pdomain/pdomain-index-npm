@@ -2,7 +2,7 @@
 Status: active
 Owner: repository maintainers
 Created: 2026-07-15
-Last verified: 2026-11-06
+Last verified: 2026-11-12
 Kind: process
 Level: I1
 ---
@@ -14,22 +14,17 @@ Level: I1
 - **Kind:** process
 - **Status:** active
 - **Level:** I1
-- **Last verified:** 2026-11-06
+- **Last verified:** 2026-11-12
 - **Read when:** filing a bug report, or checking which issues are still open.
 - **Search terms:** issues folder, bug report, remaining work, issue template,
   issue lifecycle, kind issue.
 
 ## Open issues
 
-- Publish does not run the clean-directory install check.
+The narrative list is [Remaining work](../roadmap.md). This folder links the live reports:
 
-  See the [Automated live smoke plan](../plans/2026-07-21-automated-live-smoke.md) and [Decide whether deployments need an automated live smoke](2026-05-17-gh-007-automated-live-smoke.md).
-
-- Thirteen `dep-refresh/*` branches were still on origin on 2026-11-06. `delete_branch_on_merge` is still false.
-
-  See [dep-refresh branches accumulate on origin instead of being deleted after merge](2026-08-08-dep-refresh-cannot-auto-land.md).
-
-The same open items are listed in [Remaining work](../roadmap.md).
+- [Decide whether deployments need an automated live smoke](2026-05-17-gh-007-automated-live-smoke.md)
+- [dep-refresh branches accumulate on origin instead of being deleted after merge](2026-08-08-dep-refresh-cannot-auto-land.md)
 
 Shipped registry behavior is [Registry Format](../architecture/registry-format.md).
 

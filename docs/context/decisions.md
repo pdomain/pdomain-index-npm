@@ -2,7 +2,7 @@
 Status: active
 Owner: repository maintainers
 Created: 2026-07-14
-Last verified: 2026-11-06
+Last verified: 2026-11-12
 Kind: context
 ---
 
@@ -152,3 +152,22 @@ Kind: context
   `290f458`, and [Registry Format](../architecture/registry-format.md).
 - **Remaining work:** The live smoke still does not run after publish. See
   [Remaining work](../roadmap.md).
+
+### 2026-11-12 — One open-work list, and a written repository boundary
+
+- **Context:** The same two open items were restated in the roadmap, the issue
+  index, the intent map, and current state. Scope questions had no home:
+  the copied release driver, a revived dependency-refresh job, and a shared
+  scanner with `pdomain-index-pip`.
+- **Decision:** [Remaining work](../roadmap.md) is the only open-work list.
+  [Repository boundary](../architecture/repository-boundary.md) records what
+  this repository ships today. Separate-repo ideas on the roadmap are
+  proposals. None is an approved build.
+- **Rationale:** A reader should find unfinished work in one place, and should
+  not treat a proposal as shipped architecture. The smoke design stays a spec
+  until the owner accepts it and it ships.
+- **Evidence:** `docs/roadmap.md`, `docs/architecture/repository-boundary.md`,
+  `scripts/release-common.sh`, and the `pdomain-index-pip` copy of that file
+  (182 lines here, 175 lines there, compared on 2026-11-12).
+- **Remaining work:** The roadmap. Owner decisions stay in the
+  [intent map](intent-map.md).

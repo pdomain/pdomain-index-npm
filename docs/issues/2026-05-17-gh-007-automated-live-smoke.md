@@ -2,7 +2,7 @@
 Status: active
 Owner: repository maintainers
 Created: 2026-05-17
-Last verified: 2026-11-06
+Last verified: 2026-11-12
 Kind: issue
 Level: I1
 ---
@@ -14,7 +14,7 @@ Level: I1
 - **Kind:** issue
 - **Status:** active
 - **Level:** I1
-- **Last verified:** 2026-11-06
+- **Last verified:** 2026-11-12
 - **Resolution:** Open
 - **Severity:** Medium - deployment regressions lack an automated live check
 - **Affected version:** `master` at the GitHub Issues cutover
@@ -46,7 +46,7 @@ The original GitHub issue was closed after one successful historical run. This l
 - **Raw SHA-256:** `3f4cfb9775cc3e0e0652f5308e163b2c3db91f3982b86d283af52916c58791f8`
 - **Raw record:** `migration/github-issues/raw/issue-7.json`
 - **Cutover commit:** `fd27739`, merged to `master` in `3ed18c0`.
-- **Retention:** This issue is retained on GitHub. See the [migration ledger](../context/github-issues-migration-ledger.md) retention policy; the migration does not delete issues.
+- **Retention:** GitHub issue #7 was permanently deleted on 2026-07-19 with the other eleven migrated issues. This file is the local record. The [migration ledger](../context/github-issues-migration-ledger.md) marks the row Deleted. See the decision "Permanently delete migrated GitHub issues; keep Issues enabled" in [decisions](../context/decisions.md).
 
 ## Impact
 

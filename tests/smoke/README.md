@@ -1,4 +1,19 @@
+---
+Status: active
+Owner: repository maintainers
+Created: 2026-05-17
+Last verified: 2026-11-12
+Kind: process
+---
+
 # Smoke Test
+
+## Agent Index
+
+- **Kind:** process
+- **Status:** active
+- **Read when:** running or debugging the live npm install check.
+- **Search terms:** smoke test, npm install, clean directory, Pages.
 
 The `run.sh` script is the end-to-end integration test for `pdomain-index-npm`. It
 proves that a clean npm client can install `@pdomain/pdomain-ui` through the
@@ -50,10 +65,10 @@ VERSION=0.2.2 bash tests/smoke/run.sh
 
 ## Troubleshooting
 
-| Symptom                            | Likely cause                                                                | Fix                                                                  |
-| ---------------------------------- | --------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| `curl` 404 on packument URL        | Pages artifact deployment has not served the regenerated index yet          | Check the index regeneration workflow and Pages deployment status    |
-| `curl` 404 on tarball URL          | GitHub Release asset is missing or private                                  | Check the publisher repository release assets                        |
-| `npm install` fails with 404       | Packument's `dist.tarball` URL is not the expected GitHub Release asset URL | Regenerate the index from the publisher repository releases          |
-| Installed package metadata differs | Packument points at the wrong release asset or stale content                | Regenerate the index and verify the publisher release asset contents |
-| Smoke fails soon after deployment  | Pages lag exceeded the polling window                                       | Wait for Pages deployment, then rerun the smoke                      |
+| Symptom                            | Likely cause                                                                | Fix                                                                                      |
+| ---------------------------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `curl` 404 on packument URL        | Pages has not served the regenerated index yet                              | Confirm `scripts/publish-index.sh` pushed `gh-pages`. There is no regeneration workflow. |
+| `curl` 404 on tarball URL          | GitHub Release asset is missing or private                                  | Check the publisher repository release assets                                            |
+| `npm install` fails with 404       | Packument's `dist.tarball` URL is not the expected GitHub Release asset URL | Regenerate the index from the publisher repository releases                              |
+| Installed package metadata differs | Packument points at the wrong release asset or stale content                | Regenerate the index and verify the publisher release asset contents                     |
+| Smoke fails soon after a push      | Pages has not served the new `gh-pages` commit yet                          | Wait, then rerun `make smoke`. The script does not poll.                                 |

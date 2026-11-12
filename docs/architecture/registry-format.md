@@ -2,7 +2,7 @@
 Status: built
 Owner: repository maintainers
 Created: 2026-05-17
-Last verified: 2026-11-06
+Last verified: 2026-11-12
 Kind: architecture
 ---
 
@@ -25,12 +25,15 @@ we serve.
 assets. `scripts/publish-index.sh` wraps it: it regenerates the registry and
 pushes the result to the `gh-pages` branch, which GitHub Pages serves directly.
 It is run by hand, and it always performs a full allowlisted scan.
+[Repository boundary](repository-boundary.md) says what this repo does not own.
 
 The shipped path differs from the original migration design in several useful
-ways. It uses `REGEN_ROOT`, and until 2026-09-13 a `pdomain-npm-publish` event and a
-reusable `regen.yml` workflow, both since removed. It ignores dispatch payload content because every trigger
-runs a full allowlisted scan. It also removed the legacy publish, rebuild, and
-sync scripts after the replacement shipped.
+ways. It uses `REGEN_ROOT`. Until 2026-09-13 it also had a `pdomain-npm-publish`
+event and a reusable `regen.yml` workflow. Both are gone. There is no dispatch
+path now. `scripts/publish-index.sh` only runs a full allowlisted scan. While
+those triggers existed, they ignored dispatch payload content because every
+trigger full-scanned. The legacy publish, rebuild, and sync scripts were
+removed after the replacement shipped.
 
 ## Evidence
 

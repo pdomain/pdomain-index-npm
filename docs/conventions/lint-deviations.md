@@ -2,7 +2,7 @@
 Status: active
 Owner: repository maintainers
 Created: 2026-05-30
-Last verified: 2026-11-07
+Last verified: 2026-11-12
 Kind: convention
 ---
 
@@ -28,5 +28,9 @@ configuration.
 ## Ruff
 
 `pyproject.toml` ignores `E501` for line length and `COM812` to avoid a
-conflict with the formatter. The former `S603` entry no longer applies:
-commit `6071e3a` deleted `scripts/update_github_actions.py`.
+conflict with the formatter. It still selects the `S` security family because
+an older script shelled out to `gh`. Commit `6071e3a` deleted
+`scripts/update_github_actions.py`. No production Python script remains.
+`scripts/__init__.py` is empty. The project file stays so `uv run` and
+pre-commit match other pdomain repositories. The former `S603` suppression
+no longer applies.

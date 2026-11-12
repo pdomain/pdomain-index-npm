@@ -2,7 +2,7 @@
 Status: active
 Owner: repository maintainers
 Created: 2026-05-17
-Last verified: 2026-11-07
+Last verified: 2026-11-12
 Kind: usage
 ---
 
@@ -88,6 +88,9 @@ GitHub-generated release notes are canonical for tooling releases.
 
 See [docs/architecture/registry-format.md](docs/architecture/registry-format.md) for the on-disk
 shape and the parts of the npm registry HTTP API we serve.
+See [docs/architecture/repository-boundary.md](docs/architecture/repository-boundary.md)
+for what this repository does not own, and [docs/roadmap.md](docs/roadmap.md)
+for unfinished work.
 
 ## Contributing
 

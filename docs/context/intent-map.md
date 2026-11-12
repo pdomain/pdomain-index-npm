@@ -2,7 +2,7 @@
 Status: active
 Owner: repository maintainers
 Created: 2026-07-14
-Last verified: 2026-11-06
+Last verified: 2026-11-12
 Kind: context
 ---
 
@@ -22,8 +22,10 @@ Kind: context
 
 ## Deferred work
 
-- **Incremental regeneration:** A single-repository fast path may reduce work, but the current full rebuild is simpler and already idempotent. Evidence: `scripts/regen-index.ts` and `scripts/publish-index.sh`. Commit `290f458` removed `.github/workflows/regen.yml`.
-- **Allowlist expansion:** Add publishers only with an explicit trusted repository-to-package mapping and matching validation tests. Evidence: `DEFAULT_EXPECTED_PACKAGES` in `scripts/regen-index.ts`.
+Both items are on [Remaining work](../roadmap.md). They stay optional.
+
+- **Incremental regeneration:** A single-repository fast path may reduce work. The full rebuild is simpler and already idempotent. Evidence: `scripts/regen-index.ts` and `scripts/publish-index.sh`. Commit `290f458` removed `.github/workflows/regen.yml`.
+- **Allowlist expansion:** Add publishers only with an explicit trusted repository-to-package mapping and matching validation tests. Evidence: `DEFAULT_EXPECTED_PACKAGES` in `scripts/regen-index.ts`. The mapping today is `pdomain/pdomain-ui` to `@pdomain/pdomain-ui`.
 
 ## Rejected directions
 
@@ -39,10 +41,13 @@ None.
 
 ## Needs owner decision
 
-- [Automated live smoke](../issues/2026-05-17-gh-007-automated-live-smoke.md). `scripts/publish-index.sh` does not run `make smoke`. The [plan](../plans/2026-07-21-automated-live-smoke.md) is not implemented. Decide whether every publish must run the clean-directory install check.
-- [dep-refresh branches](../issues/2026-08-08-dep-refresh-cannot-auto-land.md). On 2026-11-06 the GitHub API still listed 13 `dep-refresh/*` branches, dated 2026-06-21 through 2026-09-13, and `delete_branch_on_merge` was false. Commit `290f458` deleted the workflow that opened them.
+Detail for each item is on [Remaining work](../roadmap.md).
 
-The short list is [Remaining work](../roadmap.md).
+- [Automated live smoke](../issues/2026-05-17-gh-007-automated-live-smoke.md). `scripts/publish-index.sh` does not run `make smoke`. The [plan](../plans/2026-07-21-automated-live-smoke.md) is not implemented. Decide whether every publish must run the clean-directory install check.
+- [dep-refresh branches](../issues/2026-08-08-dep-refresh-cannot-auto-land.md). On 2026-11-06 the GitHub API still listed 13 `dep-refresh/*` branches, dated 2026-06-21 through 2026-09-13, and `delete_branch_on_merge` was false. Commit `290f458` deleted the workflow that opened them. The remaining choice is branch deletion, not a new workflow.
+- **Shared release driver.** `scripts/release-common.sh` is a vendored copy, and the `pdomain-index-pip` copy already differs. Decide whether one upstream replaces the copies.
+- **Dependency refresh as a shared job.** Decide whether the org brings that job back at all. If it does, it does not belong in this repository.
+- **Shared release scanner.** Leave the npm and pip generators separate unless both must change for the same bug.
 
 ## Recorded classifications
 

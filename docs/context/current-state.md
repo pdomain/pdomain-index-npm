@@ -2,7 +2,7 @@
 Status: active
 Owner: repository maintainers
 Created: 2026-07-14
-Last verified: 2026-11-06
+Last verified: 2026-11-12
 Kind: context
 ---
 
@@ -17,7 +17,7 @@ Kind: context
 
 ## What matters now
 
-The repository builds a read-only static npm registry. [Registry Format](../architecture/registry-format.md) is the shipped behavior. [Remaining work](../roadmap.md) is the open list.
+The repository builds a read-only static npm registry. [Registry Format](../architecture/registry-format.md) is the shipped behavior. [Repository boundary](../architecture/repository-boundary.md) says what belongs elsewhere. [Remaining work](../roadmap.md) is the only open list.
 
 GitHub Pages serves packuments. Allowlisted publisher GitHub Releases serve package bytes. `scripts/publish-index.sh` rebuilds the registry and pushes the `gh-pages` branch. Nothing in this repo runs that command on a schedule.
 
@@ -25,11 +25,11 @@ GitHub Pages serves packuments. Allowlisted publisher GitHub Releases serve pack
 
 ## In flight
 
-The open items are on [Remaining work](../roadmap.md). `tests/smoke/run.sh` exists. `scripts/publish-index.sh` does not run it.
+The open list is [Remaining work](../roadmap.md). The undecided build is whether publish runs the live smoke. `tests/smoke/run.sh` exists. `scripts/publish-index.sh` does not run it.
 
 ## Risks and tests
 
-No red or flaky test is documented. GitHub Release assets and GitHub Pages stay outside this repo. `tests/smoke/run.sh` checks one deployed package when someone runs `make smoke`.
+No red or flaky test is documented. `make ci` does not contact GitHub Pages or GitHub Release assets. `scripts/publish-index.sh` pushes the `gh-pages` branch from this repo. Package bytes stay in publisher GitHub Releases. `tests/smoke/run.sh` checks one deployed package when someone runs `make smoke`.
 
 ## Issue records
 
