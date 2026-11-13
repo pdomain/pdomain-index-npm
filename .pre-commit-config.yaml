@@ -67,7 +67,7 @@ repos:
         files: ^(src|scripts|tests)/.*\.ts$|^tsconfig.*\.json$|^package(-lock)?\.json$
     -   id: eslint
         name: eslint
-        entry: npm run --silent lint
+        entry: npm run --silent lint:check
         language: system
         stages: [pre-commit]
         pass_filenames: false

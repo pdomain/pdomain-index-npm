@@ -24,3 +24,6 @@ __pycache__/
 # Python tooling environment (see pyproject.toml).
 .venv/
 .venv-container/
+
+# Agent gate log
+.ci-ai.log
