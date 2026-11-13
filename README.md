@@ -2,7 +2,7 @@
 Status: active
 Owner: repository maintainers
 Created: 2026-05-17
-Last verified: 2026-11-12
+Last verified: 2026-11-13
 Kind: usage
 ---
 
@@ -79,10 +79,11 @@ GitHub-generated release notes are canonical for tooling releases.
 
 - Semver throughout.
 - Pre-1.0 incubation: `0.X.Y-alpha[.N]`. The `alpha` dist-tag tracks the
-  latest prerelease; `latest` only advances when a non-prerelease is
-  published.
-- Versions are immutable. `scripts/regen-index.ts` rejects duplicate
-  `name@version` release assets with different tarball bytes.
+  latest prerelease. `latest` selects the highest stable version, or the
+  highest prerelease when no stable version exists.
+- Publishers must keep versions immutable. Within one rebuild,
+  `scripts/regen-index.ts` rejects duplicate `name@version` assets with
+  different tarball bytes. It does not compare against earlier rebuilds.
 
 ## Layout
 
@@ -107,6 +108,6 @@ The `@pdomain/*` packages already follow habits to keep that door
 open:
 
 - Plain semver version strings (no npm-specific metadata in the version).
-- Release versions are immutable (same `name@version` with different bytes
-  is rejected).
+- Publishers keep release versions immutable. Conflicting `name@version`
+  assets in one rebuild are rejected.
 - Tarball names follow the `<name>-<version>.tgz` convention npm itself uses.

@@ -2,7 +2,7 @@
 Status: built
 Owner: repository maintainers
 Created: 2026-05-17
-Last verified: 2026-11-12
+Last verified: 2026-11-13
 Kind: architecture
 ---
 
@@ -50,6 +50,9 @@ removed after the replacement shipped.
   `.github/workflows/regen.yml` and `tests/test_workflows.test.ts`. Commit
   `290f458` removed the workflows, and `tests/test_workflows.test.ts` is not
   in the tree.
+
+- **Rechecked:** source and duplicate-version tests on 2026-11-13 confirm
+  that conflict detection applies within one rebuild, not across rebuilds.
 
 ## Live smoke test boundary
 
@@ -136,12 +139,14 @@ The `dist.tarball` URL is the publisher repository's GitHub Release asset URL.
 The registry stores hashes in the packument, but it does not copy the tarball
 into the Pages artifact.
 
-Each version object also carries the install-relevant fields copied verbatim
+Each version object also carries metadata fields copied verbatim
 from the tarball's `package.json` — `dependencies`, `peerDependencies`,
-`peerDependenciesMeta`, `optionalDependencies`, `bundleDependencies`,
+`devDependencies`, `peerDependenciesMeta`, `optionalDependencies`,
+`bundleDependencies`, `bundledDependencies`,
 `engines`, `exports`, `imports`, `type`, `bin`, `os`, `cpu`, `sideEffects`,
-`funding`, `deprecated`, `hasInstallScript`. Without these, a package manager
-reading the packument cannot resolve the transitive dependency tree.
+`funding`, `deprecated`, `hasInstallScript`. Dependency and package-entry fields
+let package managers resolve and install the package. `devDependencies` is
+copied as metadata; it does not declare consumer runtime dependencies.
 
 ## Upstream references
 
@@ -174,8 +179,10 @@ allowlisted repository's GitHub release-download path.
 
 The generator clears its output before writing and enforces limits on compressed
 tarballs, decompressed data, and `package.json`. Repeating the same package
-version with identical content is idempotent. Repeating a version with different
-hashes is a hard failure because published versions are immutable.
+version with identical content within one rebuild is idempotent. Conflicting
+hashes for one version in that rebuild cause a hard failure. The generator
+does not compare against prior output or retain an integrity ledger between
+runs. Publishers must keep released versions immutable.
 
 These invariants are covered in `tests/test_regen_index.test.ts`, including
 unknown repositories, wrong package names, wrong release hosts, size limits,

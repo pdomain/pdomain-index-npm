@@ -171,3 +171,19 @@ Kind: context
   (182 lines here, 175 lines there, compared on 2026-11-12).
 - **Remaining work:** The roadmap. Owner decisions stay in the
   [intent map](intent-map.md).
+
+### 2026-11-13 — Architecture review and retirement assessment
+
+- **Decision:** Keep the unfinished smoke spec, plan, and both open issues active. No live document is eligible for retirement in this pass.
+- **Context:** The architecture and retirement pass checked live docs against source, tests, and commit history after the Just migration.
+- **Rationale:**
+  - The publisher still has no smoke retry helper, and the GitHub API still lists thirteen dependency-refresh branches.
+  - The smoke spec's risk paragraph does not establish the actual independent review required for future retirement.
+  - No automation policy or branch deletion is approved by this assessment.
+- **Evidence:**
+  - `scripts/publish-index.sh`, `tests/smoke/run.sh`, `scripts/regen-index.ts`, and all 15 Node tests on 2026-11-13.
+  - On that date, `gh api --paginate repos/pdomain/pdomain-index-npm/branches --jq '.[].name'` returned thirteen `dep-refresh/*` branches.
+  - [Repository boundary](../architecture/repository-boundary.md#local-gate-and-tooling-releases) now captures the shipped task and release process from commits `e1de6f2` and `9593417`. [Registry Format](../architecture/registry-format.md) records the scope of duplicate-version checks.
+- **Remaining work:**
+  - The existing [open-work list](../roadmap.md) remains authoritative.
+  - Tooling publication waits for the staged release authorization.

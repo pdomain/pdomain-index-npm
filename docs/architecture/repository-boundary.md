@@ -2,7 +2,7 @@
 Status: built
 Owner: repository maintainers
 Created: 2026-11-12
-Last verified: 2026-11-12
+Last verified: 2026-11-13
 Kind: architecture
 ---
 
@@ -40,6 +40,34 @@ to the registry.
 
 `scripts/do-release.sh` sets `RELEASE_BUILD` to `:` and then sources
 `scripts/release-common.sh`.
+
+## Local gate and tooling releases
+
+The local gate is `just ci`. It runs typecheck, lint-check, format-check,
+actionlint, shell-check, tests, and strict docgraph in that order. Tests build
+TypeScript before running both the top-level and nested Node test files.
+The gate does not run the network smoke or the publish script.
+
+Setup uses `npm ci` and reinstalls hooks when this checkout owns them.
+
+AI mode writes the full log to `.ci-ai.log` and prints one result line.
+
+Each justfile owns its recipes; there are no sibling taskfile imports.
+
+Registry generation reads `REGEN_ROOT` from the environment and defaults to
+`_site`. The publish script passes its temporary directory through that
+variable before calling `just regen-index`.
+
+Tooling releases use Git tags, not the private npm metadata version. The
+release driver runs `just ci-slow`, creates an annotated version tag, pushes
+master and that tag, and creates a GitHub Release with generated notes.
+The wrapper disables the release build. On a normal clean gate run no package
+archives are produced, so the release has no assets. The driver would attach
+any matching archives already present in `dist/`; verify that directory
+before release.
+
+A tooling release does not rebuild Pages, update consumers, or restart services.
+Registry publication is the separate `scripts/publish-index.sh` command.
 
 ## What stays outside
 
@@ -82,6 +110,9 @@ This repository vendors one copy. It is not the upstream of that driver.
 - **Neighbors:** `pdomain-index-pip` has its own `scripts/regen_index.py` and
   `scripts/publish-index.sh`. Its `scripts/release-common.sh` differs from the
   copy here: 175 lines there and 182 lines here, compared on 2026-11-12.
+- **Task process:** `justfile`, `package.json`, `scripts/publish-index.sh`,
+  and `scripts/release-common.sh`; migration commits `e1de6f2` and `9593417`.
+- **Rechecked:** source review and all 15 Node tests on 2026-11-13.
 - **Verified:** source review on 2026-11-12. `make ci` was not re-run for this
   document.
 

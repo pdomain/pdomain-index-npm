@@ -2,7 +2,7 @@
 Status: active
 Owner: repository maintainers
 Created: 2026-07-14
-Last verified: 2026-11-12
+Last verified: 2026-11-13
 Kind: context
 ---
 
@@ -52,6 +52,11 @@ Detail for each item is on [Remaining work](../roadmap.md).
 ## Recorded classifications
 
 These notes are not open work.
+
+- The 2026-11-13 architecture and retirement pass found no eligible live doc to delete.
+- The smoke spec and plan remain unimplemented.
+- The spec needs an actual recorded independent review before future retirement. Its current risk paragraph does not establish one.
+- The two architecture docs remain built descriptions of shipped behavior.
 
 - The historical release-asset plan and design were classified as implemented from commits `bc011b5`, `02123ba`, and `15f75de`, then retired after their current truth and residual intent were preserved. Tombstones are in [decisions](decisions.md).
 - [Writing style](../process/writing-style.md) is still active. `CLAUDE.md` and `CONVENTIONS.md` still require it.

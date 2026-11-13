@@ -2,7 +2,7 @@
 Status: active
 Owner: repository maintainers
 Created: 2026-07-14
-Last verified: 2026-11-12
+Last verified: 2026-11-13
 Kind: context
 ---
 
@@ -21,7 +21,7 @@ The repository builds a read-only static npm registry. [Registry Format](../arch
 
 GitHub Pages serves packuments. Allowlisted publisher GitHub Releases serve package bytes. `scripts/publish-index.sh` rebuilds the registry and pushes the `gh-pages` branch. Nothing in this repo runs that command on a schedule.
 
-`just ci` is the local gate. It runs TypeScript checking, ESLint, Prettier, actionlint, shell syntax checks, and the Node test suite.
+`just ci` is the local gate. It runs TypeScript checking, ESLint, Prettier, actionlint, shell syntax checks, the Node test suite, and strict docgraph. [Repository boundary](../architecture/repository-boundary.md#local-gate-and-tooling-releases) records the gate and release process.
 
 ## In flight
 
