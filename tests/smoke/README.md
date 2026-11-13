@@ -39,11 +39,11 @@ By default, the smoke checks `@pdomain/pdomain-ui@latest`.
 ## How to run locally
 
 ```sh
-make smoke
+just smoke
 ```
 
 `npm run smoke` and `bash tests/smoke/run.sh` run the same check. This is a live
-network test. The normal `make ci` gate checks the script's shell syntax but
+network test. The normal `just ci` gate checks the script's shell syntax but
 does not execute the smoke against the deployed registry.
 
 Expected output ends with `SMOKE PASSED`. Exit code is 0 on success, non-zero
@@ -71,4 +71,4 @@ VERSION=0.2.2 bash tests/smoke/run.sh
 | `curl` 404 on tarball URL          | GitHub Release asset is missing or private                                  | Check the publisher repository release assets                                            |
 | `npm install` fails with 404       | Packument's `dist.tarball` URL is not the expected GitHub Release asset URL | Regenerate the index from the publisher repository releases                              |
 | Installed package metadata differs | Packument points at the wrong release asset or stale content                | Regenerate the index and verify the publisher release asset contents                     |
-| Smoke fails soon after a push      | Pages has not served the new `gh-pages` commit yet                          | Wait, then rerun `make smoke`. The script does not poll.                                 |
+| Smoke fails soon after a push      | Pages has not served the new `gh-pages` commit yet                          | Wait, then rerun `just smoke`. The script does not poll.                                 |

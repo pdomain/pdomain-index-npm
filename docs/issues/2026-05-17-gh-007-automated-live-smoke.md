@@ -26,7 +26,7 @@ Level: I1
 
 The live smoke test exists. Nothing in the current publish path runs it. The historical `publish.yml` workflow ran the smoke after publishing. The later `regen.yml` workflow deployed without that check, and commit `290f458` then removed `.github/workflows/`.
 
-Checked on 2026-11-06. [The plan](../plans/2026-07-21-automated-live-smoke.md) is still unfinished. `scripts/publish-index.sh` publishes to `gh-pages` and does not run `make smoke`.
+Checked on 2026-11-06. [The plan](../plans/2026-07-21-automated-live-smoke.md) is still unfinished. `scripts/publish-index.sh` publishes to `gh-pages` and does not run `just smoke`.
 
 The original GitHub issue was closed after one successful historical run. This local record keeps the unresolved automation decision active without reopening the already implemented smoke script.
 
@@ -50,9 +50,9 @@ The original GitHub issue was closed after one successful historical run. This l
 
 ## Impact
 
-- `make ci` checks the smoke script's shell syntax but does not test the deployed registry.
+- `just ci` checks the smoke script's shell syntax but does not test the deployed registry.
 - A deployment can finish without an automated clean-directory `npm install` check.
-- Maintainers can still run `make smoke` manually.
+- Maintainers can still run `just smoke` manually.
 
 ## Environment / versions
 
@@ -67,8 +67,8 @@ Smoke script: tests/smoke/run.sh
 
 1. Commit `f5c388c` added the clean-directory smoke script. The historical `publish.yml` ran it after publishing.
 2. Author `ConcaveTrillion` reported on 2026-05-17T18:16:12Z that workflow run `25998785023` passed for `@concavetrillion/pd-ui@0.1.0-alpha`.
-3. Commit `290f458` deleted `.github/workflows/`, including `regen.yml`. `scripts/publish-index.sh` does not run `make smoke`.
-4. `package.json` maps `npm run smoke` to `bash tests/smoke/run.sh`, and `Makefile` exposes `make smoke`.
+3. Commit `290f458` deleted `.github/workflows/`, including `regen.yml`. `scripts/publish-index.sh` does not run `just smoke`.
+4. `package.json` maps `npm run smoke` to `bash tests/smoke/run.sh`, and `justfile` exposes `just smoke`.
 
 The historical success is an attributed report from the migrated comment. It proves one historical package and run, not current deployment health.
 
@@ -92,7 +92,7 @@ The historical success is an attributed report from the migrated comment. It pro
 ## What is NOT broken
 
 - `tests/smoke/run.sh` performs the clean-directory installation check.
-- `make smoke` and `npm run smoke` invoke the current script.
+- `just smoke` and `npm run smoke` invoke the current script.
 - The ordinary CI gate checks the script's shell syntax.
 
 ## Resolution

@@ -43,7 +43,7 @@ None.
 
 Detail for each item is on [Remaining work](../roadmap.md).
 
-- [Automated live smoke](../issues/2026-05-17-gh-007-automated-live-smoke.md). `scripts/publish-index.sh` does not run `make smoke`. The [plan](../plans/2026-07-21-automated-live-smoke.md) is not implemented. Decide whether every publish must run the clean-directory install check.
+- [Automated live smoke](../issues/2026-05-17-gh-007-automated-live-smoke.md). `scripts/publish-index.sh` does not run `just smoke`. The [plan](../plans/2026-07-21-automated-live-smoke.md) is not implemented. Decide whether every publish must run the clean-directory install check.
 - [dep-refresh branches](../issues/2026-08-08-dep-refresh-cannot-auto-land.md). On 2026-11-06 the GitHub API still listed 13 `dep-refresh/*` branches, dated 2026-06-21 through 2026-09-13, and `delete_branch_on_merge` was false. Commit `290f458` deleted the workflow that opened them. The remaining choice is branch deletion, not a new workflow.
 - **Shared release driver.** `scripts/release-common.sh` is a vendored copy, and the `pdomain-index-pip` copy already differs. Decide whether one upstream replaces the copies.
 - **Dependency refresh as a shared job.** Decide whether the org brings that job back at all. If it does, it does not belong in this repository.

@@ -53,12 +53,12 @@ removed after the replacement shipped.
 
 ## Live smoke test boundary
 
-`make smoke` and `npm run smoke` both invoke `tests/smoke/run.sh`. The script
+`just smoke` and `npm run smoke` both invoke `tests/smoke/run.sh`. The script
 checks the deployed registry over the network. It fetches the live packument
 and release-asset tarball, creates a fresh directory with only the registry
 override, runs `npm install`, and checks the installed package name and version.
 
-The smoke test is a manual external check. `make ci` checks its shell syntax but
+The smoke test is a manual external check. `just ci` checks its shell syntax but
 does not run it. `scripts/publish-index.sh` does not run it either. A successful
 smoke run proves the selected package version and deployment at that time. It
 does not prove every later publish.

@@ -30,7 +30,7 @@ if [ -z "${GH_TOKEN:-}" ]; then
 fi
 
 echo "==> Regenerating the simple index"
-make regen-index REGEN_ROOT="$SITE"
+REGEN_ROOT="$SITE" just regen-index
 
 cat > "$SITE/index.html" <<'HTML'
 <!DOCTYPE html>

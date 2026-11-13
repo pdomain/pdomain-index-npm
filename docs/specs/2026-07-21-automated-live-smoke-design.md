@@ -24,7 +24,7 @@ Kind: spec
 
 Proposal updated on 2026-11-07 for review. The code still publishes without smoke verification. This revision replaces the unimplemented GitHub Actions design with verification after a successful push by `scripts/publish-index.sh`. It does not record owner acceptance of the automation policy or authorize implementation or deployment.
 
-The publisher will run a local verification helper after a changed index is pushed. Dry runs, unchanged output, generation failures, and push failures will not invoke smoke. The helper will call existing `make smoke`; `tests/smoke/run.sh` retains packument, release-asset, and clean-install validation.
+The publisher will run a local verification helper after a changed index is pushed. Dry runs, unchanged output, generation failures, and push failures will not invoke smoke. The helper will call existing `just smoke`; `tests/smoke/run.sh` retains packument, release-asset, and clean-install validation.
 
 The publisher will pass the generated `@pdomain/pdomain-ui` packument's `dist-tags.latest` as VERSION, including a prerelease fallback. It will require a matching generated version entry and package name before pushing. This prevents an older live latest from selecting an unrelated version for the check.
 
@@ -44,7 +44,7 @@ All failed attempts or an expired deadline return non-zero. The command must say
 
 Default REGISTRY to `https://pdomain.github.io/pdomain-index-npm/` for `PAGES_BRANCH=gh-pages`. A custom branch requires an explicit non-empty REGISTRY before pushing. Accept HTTP or HTTPS and normalize a trailing slash. The caller must arrange serving of a custom branch at that URL.
 
-Keep manual `make smoke` behavior unchanged and add no npm dependency. GNU timeout becomes a local publishing prerequisite. Check its availability before pushing.
+Keep manual `just smoke` behavior unchanged and add no npm dependency. GNU timeout becomes a local publishing prerequisite. Check its availability before pushing.
 
 The selected package/version check does not prove that every package changed by the push is live. If the selected version was already served, success also does not prove that Pages has switched to the newest branch commit. This proposal adds an installation check, not complete deployment freshness verification.
 
@@ -61,7 +61,7 @@ After local checks pass and deployment is authorized, capture one changed publis
 3. At most six attempts use 30-second waits, a 75-second per-attempt limit, a 600-second overall deadline, and five-second kill grace periods.
 4. Verification failure returns non-zero, reports the already completed push, and does not roll it back.
 5. A custom branch requires an explicit HTTP or HTTPS registry URL before pushing.
-6. `make ci` passes offline, and an authorized changed publish provides successful live evidence.
+6. `just ci` passes offline, and an authorized changed publish provides successful live evidence.
 
 ## Adversarial Review
 

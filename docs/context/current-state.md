@@ -21,7 +21,7 @@ The repository builds a read-only static npm registry. [Registry Format](../arch
 
 GitHub Pages serves packuments. Allowlisted publisher GitHub Releases serve package bytes. `scripts/publish-index.sh` rebuilds the registry and pushes the `gh-pages` branch. Nothing in this repo runs that command on a schedule.
 
-`make ci` is the local gate. It runs TypeScript checking, ESLint, Prettier, actionlint, shell syntax checks, and the Node test suite.
+`just ci` is the local gate. It runs TypeScript checking, ESLint, Prettier, actionlint, shell syntax checks, and the Node test suite.
 
 ## In flight
 
@@ -29,7 +29,7 @@ The open list is [Remaining work](../roadmap.md). The undecided build is whether
 
 ## Risks and tests
 
-No red or flaky test is documented. `make ci` does not contact GitHub Pages or GitHub Release assets. `scripts/publish-index.sh` pushes the `gh-pages` branch from this repo. Package bytes stay in publisher GitHub Releases. `tests/smoke/run.sh` checks one deployed package when someone runs `make smoke`.
+No red or flaky test is documented. `just ci` does not contact GitHub Pages or GitHub Release assets. `scripts/publish-index.sh` pushes the `gh-pages` branch from this repo. Package bytes stay in publisher GitHub Releases. `tests/smoke/run.sh` checks one deployed package when someone runs `just smoke`.
 
 ## Issue records
 

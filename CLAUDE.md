@@ -71,7 +71,7 @@ change any step below.
    worktree path + branch, use the `finishing-a-development-branch` skill to
    decide how to integrate.
 9. **TDD.** Write the failing test first where the plan calls for it.
-10. **Verify before committing.** Focused verification plus `make ci`.
+10. **Verify before committing.** Focused verification plus `just ci`.
 11. **Commit locally; do not push** without explicit say-so.
 
 <!-- workspace-process:end -->

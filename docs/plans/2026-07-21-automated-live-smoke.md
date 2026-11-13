@@ -22,7 +22,7 @@ Kind: plan
 
 **Goal:** Check the selected package with the existing clean-directory npm smoke after a successful local registry push.
 
-**Architecture:** Extend `scripts/publish-index.sh` to call a bounded retry helper after pushing. Reuse `make smoke`, passing the version selected from the generated packument. Keep the normal CI gate offline.
+**Architecture:** Extend `scripts/publish-index.sh` to call a bounded retry helper after pushing. Reuse `just smoke`, passing the version selected from the generated packument. Keep the normal CI gate offline.
 
 **Tech Stack:** Bash, GNU timeout, Node.js, npm, TypeScript, Node test runner.
 
@@ -46,13 +46,13 @@ Use Bash for the helper and the existing TypeScript Node tests for subprocess ve
 
 ## Global Constraints
 
-- Reuse `make smoke`; keep packument, tarball, and installation validation in `tests/smoke/run.sh`.
+- Reuse `just smoke`; keep packument, tarball, and installation validation in `tests/smoke/run.sh`.
 - Allow at most six attempts, with 30-second waits between failed attempts and no wait after attempt six.
 - Bound each attempt at 75 seconds and the entire verification phase at 600 seconds. Use GNU timeout with a five-second kill grace period; forced termination can add up to five seconds.
 - Dry runs, unchanged output, generation failures, and push failures must not run smoke.
-- Normal `make ci` remains offline. Tests use local repositories and fake commands.
+- Normal `just ci` remains offline. Tests use local repositories and fake commands.
 - Smoke failure returns non-zero and says the push succeeded. Do not roll back the published branch.
-- Keep manual `make smoke` behavior unchanged.
+- Keep manual `just smoke` behavior unchanged.
 - Updating this plan does not choose the automation policy on the owner's behalf or authorize publishing. Review the proposal before implementation; obtain authorization before live deployment.
 
 ## Review Focus
@@ -65,13 +65,13 @@ Use Bash for the helper and the existing TypeScript Node tests for subprocess ve
 
 ## Files and interfaces
 
-- Create `scripts/verify-published-index.sh`: retry wrapper around `make smoke`.
+- Create `scripts/verify-published-index.sh`: retry wrapper around `just smoke`.
 - Modify `scripts/publish-index.sh`: validate verification inputs and invoke the wrapper after push.
 - Create `tests/test_publish_index.test.ts`: offline subprocess tests for both scripts.
 - Modify `package.json`: include both publish scripts in `shell:check`.
 - Update `README.md`, `tests/smoke/README.md`, and `docs/architecture/registry-format.md` only when implementation ships.
 
-Helper interface: `bash scripts/verify-published-index.sh REGISTRY VERSION`. Require two non-empty arguments. Run from the repository root. Each attempt passes `REGISTRY`, `PACKAGE=@pdomain/pdomain-ui`, and `VERSION` to `make smoke`. Return 0 on success, 1 after exhausted attempts, and a non-zero timeout status when terminated.
+Helper interface: `bash scripts/verify-published-index.sh REGISTRY VERSION`. Require two non-empty arguments. Run from the repository root. Each attempt runs `REGISTRY=<registry> PACKAGE=@pdomain/pdomain-ui VERSION=<version> just smoke`. Return 0 on success, 1 after exhausted attempts, and a non-zero timeout status when terminated.
 
 Publisher input: optional `REGISTRY`. Default to `https://pdomain.github.io/pdomain-index-npm/` only when `PAGES_BRANCH=gh-pages`. For any other branch require an explicit non-empty `REGISTRY`. Accept HTTP or HTTPS URLs, normalize a trailing slash, and reject other schemes before pushing. A custom branch alone does not establish a deployment; the caller must arrange serving at that URL.
 
@@ -83,7 +83,7 @@ Publisher input: optional `REGISTRY`. Default to `https://pdomain.github.io/pdom
 
 - [ ] **Step 1: Write failing subprocess tests.**
 
-Use `node:test`, temporary directories, and an executable fake `make` prepended to `PATH`. Capture argv, environment, attempt counts, and exit status. Fake `sleep` records the requested delay without waiting. Test immediate success, success on attempt three, and six failures. Assert counts of one, three, and six; delays of zero, two, and five; each delay exactly 30 seconds; and unchanged registry/package/version arguments.
+Use `node:test`, temporary directories, and an executable fake `just` prepended to `PATH`. Capture argv, environment, attempt counts, and exit status. Fake `sleep` records the requested delay without waiting. Test immediate success, success on attempt three, and six failures. Assert counts of one, three, and six; delays of zero, two, and five; each delay exactly 30 seconds; and unchanged registry/package/version arguments.
 
 Add invalid-argument tests that make no attempt. Use a recording fake `timeout` to assert the 600-second outer limit, 75-second per-attempt limit, and five-second kill grace. Exercise GNU timeout separately with a short-lived test deadline and a hanging fake child and grandchild, proving both terminate without a ten-minute test. Cover outer cancellation while an inner attempt is running. Keep production limits fixed.
 
@@ -93,7 +93,7 @@ Run `npm run build --silent` and `node --test dist/tests/test_publish_index.test
 
 - [ ] **Step 3: Implement the helper.**
 
-Use strict Bash handling. Have the helper start its retry loop in a private internal mode under the outer timeout. Bound each `make smoke` attempt with the inner timeout. Use GNU timeout's default process-group behavior, without `--foreground`. Track the active inner timeout process group; on outer cancellation, terminate that group and wait for it, escalating to KILL within the five-second grace. Nested timeout groups must not leave smoke descendants running. Treat a timed-out attempt as a failure eligible for retry. Log each attempt and preserve a non-zero result when all fail or the outer deadline expires. Check for GNU timeout before entering the loop.
+Use strict Bash handling. Have the helper start its retry loop in a private internal mode under the outer timeout. Bound each `just smoke` attempt with the inner timeout. Use GNU timeout's default process-group behavior, without `--foreground`. Track the active inner timeout process group; on outer cancellation, terminate that group and wait for it, escalating to KILL within the five-second grace. Nested timeout groups must not leave smoke descendants running. Treat a timed-out attempt as a failure eligible for retry. Log each attempt and preserve a non-zero result when all fail or the outer deadline expires. Check for GNU timeout before entering the loop.
 
 Add both `scripts/publish-index.sh` and `scripts/verify-published-index.sh` to the existing `shell:check` command in `package.json`.
 
@@ -113,7 +113,7 @@ Use `feat: add bounded post-publish smoke helper` after required language and re
 
 - [ ] **Step 1: Write failing publisher integration tests.**
 
-Run a copy of the real publisher in a temporary local Git repo with a bare local origin. A fake `make regen-index` writes fixture packuments to the supplied `REGEN_ROOT`; fake smoke and sleep commands record their use. Set a dummy `GH_TOKEN` so no authentication lookup occurs. Never use the real origin or credentials.
+Run a copy of the real publisher in a temporary local Git repo with a bare local origin. A fake invocation, `REGEN_ROOT=<path> just regen-index`, writes fixture packuments to that path; fake smoke and sleep commands record their use. Set a dummy `GH_TOKEN` so no authentication lookup occurs. Never use the real origin or credentials.
 
 Assert successful push precedes smoke, the helper runs from the repo root rather than the generated worktree, and VERSION is the generated selection even when the fake live latest differs. Test prerelease fallback, malformed or missing generated metadata rejected before push, generation failure, push rejection, dry run, unchanged output, and smoke exhaustion after a successful push. The last case must return non-zero while the pushed commit remains on the local origin.
 
@@ -131,7 +131,7 @@ After push succeeds, return to `REPO_ROOT` and invoke the helper under explicit 
 
 - [ ] **Step 4: Run focused and full gates.**
 
-Run `npm run build --silent`, `node --test dist/tests/test_publish_index.test.js`, and `make ci`. Expected: all pass offline. Confirm tests never call the real GitHub origin, curl, or npm install for the live smoke.
+Run `npm run build --silent`, `node --test dist/tests/test_publish_index.test.js`, and `just ci`. Expected: all pass offline. Confirm tests never call the real GitHub origin, curl, or npm install for the live smoke.
 
 - [ ] **Step 5: Commit only Task 2 files.**
 
@@ -143,7 +143,7 @@ Use `feat: verify the registry after local publish` after required language and 
 
 - [ ] **Step 1: Update operational documentation after implementation.**
 
-Describe defaults, custom deployment configuration, bounds, skip cases, and recovery. Fix the smoke README's obsolete workflow troubleshooting. If smoke fails after push, inspect the failure and rerun `REGISTRY=<url> VERSION=<generated-version> make smoke` after Pages is available. An unchanged rerun of publish does not repeat verification.
+Describe defaults, custom deployment configuration, bounds, skip cases, and recovery. Fix the smoke README's obsolete workflow troubleshooting. If smoke fails after push, inspect the failure and rerun `REGISTRY=<url> VERSION=<generated-version> just smoke` after Pages is available. An unchanged rerun of publish does not repeat verification.
 
 - [ ] **Step 2: Request authorization immediately before a live publish.**
 
@@ -159,4 +159,4 @@ Record the accepted policy and successful evidence. Invoke `docgraph:doc-retirer
 
 - [ ] **Step 5: Verify and commit closeout documentation.**
 
-Run `make ci`, reindex, `docgraph check --strict`, and `git diff --check`. Expected: all pass. Commit only the reviewed closeout docs. Do not push source changes without authorization.
+Run `just ci`, reindex, `docgraph check --strict`, and `git diff --check`. Expected: all pass. Commit only the reviewed closeout docs. Do not push source changes without authorization.

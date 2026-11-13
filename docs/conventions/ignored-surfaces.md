@@ -22,7 +22,7 @@ checks so the checks stay focused on source files and hand-written docs.
 
 - `dist/`: TypeScript build output. ESLint and Prettier ignore it because the
   source of truth is `scripts/**/*.ts` and `tests/**/*.ts`.
-- `_site/` is the default output of `make regen-index`. Do not hand-edit it or
+- `_site/` is the default output of `just regen-index`. Do not hand-edit it or
   commit it. `scripts/publish-index.sh` builds into a temporary directory and
   pushes that output to the `gh-pages` branch.
 - `registry/` is legacy local registry output. Git and ESLint ignore it because
